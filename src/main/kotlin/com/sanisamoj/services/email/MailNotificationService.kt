@@ -1,7 +1,7 @@
 package com.sanisamoj.services.email
 
 import com.sanisamoj.context.MailContext
-import com.sanisamoj.data.models.generics.SendEmailData
+import com.sanisamoj.data.models.dataclass.SendEmailData
 import com.sanisamoj.data.models.interfaces.MailRepository
 import com.sanisamoj.data.repository.MailDefaultRepository
 import com.sanisamoj.utils.analyzers.dotEnv

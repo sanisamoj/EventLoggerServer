@@ -1,6 +1,6 @@
 package com.sanisamoj.security
 
-import com.sanisamoj.data.models.generics.AccountInAnalysis
+import com.sanisamoj.data.models.dataclass.AccountInAnalysis
 import com.sanisamoj.database.redis.CollectionsInRedis
 import com.sanisamoj.database.redis.DataIdentificationRedis
 import com.sanisamoj.database.redis.Redis

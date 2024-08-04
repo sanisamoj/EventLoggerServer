@@ -4,8 +4,8 @@ import com.sanisamoj.context.GlobalContext
 import com.sanisamoj.data.models.enums.Errors
 import com.sanisamoj.data.models.enums.OperatorStatus
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
-import com.sanisamoj.data.models.requests.CreateOperatorRequest
-import com.sanisamoj.data.models.responses.OperatorResponse
+import com.sanisamoj.data.models.dataclass.CreateOperatorRequest
+import com.sanisamoj.data.models.dataclass.OperatorResponse
 import com.sanisamoj.database.mongodb.Fields
 import com.sanisamoj.database.mongodb.OperationField
 

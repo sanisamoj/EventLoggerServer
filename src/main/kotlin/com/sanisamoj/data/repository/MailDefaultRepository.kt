@@ -1,6 +1,6 @@
 package com.sanisamoj.data.repository
 
-import com.sanisamoj.data.models.generics.SendEmailData
+import com.sanisamoj.data.models.dataclass.SendEmailData
 import com.sanisamoj.data.models.interfaces.MailRepository
 import com.sanisamoj.utils.analyzers.dotEnv
 import java.util.*
@@ -16,15 +16,24 @@ object MailDefaultRepository : MailRepository {
     private val email: String = dotEnv("EMAIL_SYSTEM")
     private val password: String = dotEnv("EMAIL_PASSWORD")
 
+    private val smtpHost =  dotEnv("SMTP_HOST")
+    private val smtpStartTls = dotEnv("SMTP_STARTTLS_ENABLE")
+    private val smtpSSLProtocols = dotEnv("SMTP_SSL_PROTOCOLS")
+    private val smtpSocketFactoryPort = dotEnv("SMTP_SOCKETFACTORY_PORT")
+    private val smtpSocketFactoryClass = dotEnv("SMTP_SOCKETFACTORY_CLASS")
+    private val smtpAuth = dotEnv("SMTP_AUTH")
+    private val smtpPort = dotEnv("SMTP_PORT")
+    private val smtpSSLTrust = dotEnv("SMTP_SSL_TRUST")
+
     private val props = Properties().apply {
-        put("mail.smtp.host", "smtp.gmail.com")
-        put("mail.smtp.starttls.enable", "true")
-        put("mail.smtp.ssl.protocols", "TLSv1.2")
-        put("mail.smtp.socketFactory.port", "465")
-        put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory")
-        put("mail.smtp.auth", "true")
-        put("mail.smtp.port", "465")
-        put("mail.smtp.ssl.trust", "*")
+        put("mail.smtp.host", smtpHost)
+        put("mail.smtp.starttls.enable", smtpStartTls)
+        put("mail.smtp.ssl.protocols", smtpSSLProtocols)
+        put("mail.smtp.socketFactory.port", smtpSocketFactoryPort)
+        put("mail.smtp.socketFactory.class", smtpSocketFactoryClass)
+        put("mail.smtp.auth", smtpAuth)
+        put("mail.smtp.port", smtpPort)
+        put("mail.smtp.ssl.trust", smtpSSLTrust)
     }
 
     override fun sendEmail(sendEmailData: SendEmailData) {
@@ -41,7 +50,6 @@ object MailDefaultRepository : MailRepository {
                 } else {
                     setText(sendEmailData.text)
                 }
-
             }
 
             Transport.send(message)

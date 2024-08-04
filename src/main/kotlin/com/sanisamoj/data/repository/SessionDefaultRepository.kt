@@ -1,6 +1,6 @@
 package com.sanisamoj.data.repository
 
-import com.sanisamoj.data.models.generics.LiveSessions
+import com.sanisamoj.data.models.dataclass.LiveSessions
 import com.sanisamoj.data.models.interfaces.SessionRepository
 import com.sanisamoj.database.redis.CollectionsInRedis
 import com.sanisamoj.database.redis.DataIdentificationRedis

@@ -2,7 +2,7 @@ package com.sanisamoj.plugins
 
 import com.sanisamoj.context.GlobalContext.errorMessages
 import com.sanisamoj.data.models.enums.Errors
-import com.sanisamoj.data.models.responses.ErrorResponse
+import com.sanisamoj.data.models.dataclass.ErrorResponse
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.statuspages.*

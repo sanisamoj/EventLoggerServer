@@ -1,8 +1,8 @@
 package com.sanisamoj.plugins
 
-import com.sanisamoj.controllers.applicationServiceRouting
-import com.sanisamoj.controllers.logEventRouting
-import com.sanisamoj.controllers.operatorRouting
+import com.sanisamoj.routing.applicationServiceRouting
+import com.sanisamoj.routing.logEventRouting
+import com.sanisamoj.routing.operatorRouting
 import io.ktor.server.application.*
 import io.ktor.server.routing.*
 

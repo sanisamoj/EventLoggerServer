@@ -1,11 +1,11 @@
 package com.sanisamoj.data.models.interfaces
 
-import com.sanisamoj.data.models.generics.ApplicationServiceData
-import com.sanisamoj.data.models.generics.EventLoggerFilter
-import com.sanisamoj.data.models.generics.LogEvent
+import com.sanisamoj.data.models.dataclass.ApplicationServiceData
+import com.sanisamoj.data.models.dataclass.EventLoggerFilter
+import com.sanisamoj.data.models.dataclass.LogEvent
 import com.sanisamoj.database.mongodb.OperationField
-import com.sanisamoj.data.models.generics.Operator
-import com.sanisamoj.data.models.requests.CreateEventRequest
+import com.sanisamoj.data.models.dataclass.Operator
+import com.sanisamoj.data.models.dataclass.CreateEventRequest
 
 interface DatabaseRepository {
     suspend fun createOperator(operator: Operator): Operator

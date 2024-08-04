@@ -1,6 +1,6 @@
 package com.sanisamoj.data.models.interfaces
 
-import com.sanisamoj.data.models.generics.LiveSessions
+import com.sanisamoj.data.models.dataclass.LiveSessions
 
 interface SessionRepository {
     suspend fun setSession(liveSessions: LiveSessions)

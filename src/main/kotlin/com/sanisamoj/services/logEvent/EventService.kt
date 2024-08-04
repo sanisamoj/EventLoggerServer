@@ -1,12 +1,12 @@
 package com.sanisamoj.services.logEvent
 
 import com.sanisamoj.context.GlobalContext
-import com.sanisamoj.data.models.generics.EventLoggerFilter
-import com.sanisamoj.data.models.generics.LogEvent
+import com.sanisamoj.data.models.dataclass.EventLoggerFilter
+import com.sanisamoj.data.models.dataclass.LogEvent
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
-import com.sanisamoj.data.models.requests.CreateEventRequest
-import com.sanisamoj.data.models.responses.LogEventResponse
-import com.sanisamoj.data.models.responses.LogEventWithPaginationResponse
+import com.sanisamoj.data.models.dataclass.CreateEventRequest
+import com.sanisamoj.data.models.dataclass.LogEventResponse
+import com.sanisamoj.data.models.dataclass.LogEventWithPaginationResponse
 import com.sanisamoj.database.mongodb.Fields
 import com.sanisamoj.database.mongodb.OperationField
 import com.sanisamoj.utils.pagination.PaginationResponse

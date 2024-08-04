@@ -3,7 +3,7 @@ package com.sanisamoj.errors
 import com.sanisamoj.context.GlobalContext.MAX_FILE_SIZE
 import com.sanisamoj.context.GlobalContext.actionMessages
 import com.sanisamoj.context.GlobalContext.errorMessages
-import com.sanisamoj.data.models.responses.ErrorResponse
+import com.sanisamoj.data.models.dataclass.ErrorResponse
 import io.ktor.http.*
 
 fun errorResponse(errorMessage: String?): Pair<HttpStatusCode, ErrorResponse> {

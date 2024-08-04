@@ -1,7 +1,7 @@
 package com.sanisamoj.services.application
 
-import com.sanisamoj.data.models.generics.ApplicationServiceData
-import com.sanisamoj.data.models.responses.ApplicationServiceResponse
+import com.sanisamoj.data.models.dataclass.ApplicationServiceData
+import com.sanisamoj.data.models.dataclass.ApplicationServiceResponse
 
 object ApplicationServiceFactory {
     fun applicationServiceResponse(applicationService: ApplicationServiceData): ApplicationServiceResponse {

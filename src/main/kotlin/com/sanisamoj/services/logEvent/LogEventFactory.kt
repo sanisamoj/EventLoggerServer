@@ -1,7 +1,7 @@
 package com.sanisamoj.services.logEvent
 
-import com.sanisamoj.data.models.generics.LogEvent
-import com.sanisamoj.data.models.responses.LogEventResponse
+import com.sanisamoj.data.models.dataclass.LogEvent
+import com.sanisamoj.data.models.dataclass.LogEventResponse
 
 object LogEventFactory {
     fun logEventResponse(logEvent: LogEvent): LogEventResponse {

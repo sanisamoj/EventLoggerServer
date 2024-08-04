@@ -1,8 +1,8 @@
 package com.sanisamoj.services.operator
 
-import com.sanisamoj.data.models.generics.Operator
-import com.sanisamoj.data.models.requests.CreateOperatorRequest
-import com.sanisamoj.data.models.responses.OperatorResponse
+import com.sanisamoj.data.models.dataclass.Operator
+import com.sanisamoj.data.models.dataclass.CreateOperatorRequest
+import com.sanisamoj.data.models.dataclass.OperatorResponse
 import org.mindrot.jbcrypt.BCrypt
 
 object OperatorFactory {

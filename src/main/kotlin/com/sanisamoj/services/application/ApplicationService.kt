@@ -2,13 +2,9 @@ package com.sanisamoj.services.application
 
 import com.sanisamoj.context.GlobalContext
 import com.sanisamoj.context.GlobalContext.APPLICATION_SERVICE_TOKEN_EXPIRATION
+import com.sanisamoj.data.models.dataclass.*
 import com.sanisamoj.data.models.enums.Errors
-import com.sanisamoj.data.models.generics.TokenInfo
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
-import com.sanisamoj.data.models.requests.ApplicationServiceLoginRequest
-import com.sanisamoj.data.models.requests.CreateApplicationServiceRequest
-import com.sanisamoj.data.models.responses.ApplicationServiceResponse
-import com.sanisamoj.data.models.responses.AuthenticationResponse
 import com.sanisamoj.database.mongodb.Fields
 import com.sanisamoj.database.mongodb.OperationField
 import com.sanisamoj.utils.generators.TokenGenerator
@@ -59,10 +55,6 @@ class ApplicationService(private val databaseRepository: DatabaseRepository = Gl
         val hashedPassword = BCrypt.hashpw(newPassword , BCrypt.gensalt())
         val update = OperationField(Fields.Password, hashedPassword)
         databaseRepository.updateApplicationService(applicationId, update)
-    }
-
-    fun updateServerVersion(newVersion: String) {
-        GlobalContext.setServerVersion(newVersion)
     }
 
     fun updateMinVersion(isMobile: Boolean = false, newVersion: String) {

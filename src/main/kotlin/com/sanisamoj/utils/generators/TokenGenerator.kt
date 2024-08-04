@@ -2,7 +2,7 @@ package com.sanisamoj.utils.generators
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.sanisamoj.data.models.generics.TokenInfo
+import com.sanisamoj.data.models.dataclass.TokenInfo
 import com.sanisamoj.utils.analyzers.dotEnv
 import java.util.*
 

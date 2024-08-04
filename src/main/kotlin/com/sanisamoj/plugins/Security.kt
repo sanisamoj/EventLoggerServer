@@ -3,8 +3,8 @@ package com.sanisamoj.plugins
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.sanisamoj.context.GlobalContext
+import com.sanisamoj.data.models.dataclass.OperatorLoginRequest
 import com.sanisamoj.data.models.enums.Errors
-import com.sanisamoj.data.models.requests.OperatorLoginRequest
 import com.sanisamoj.security.AccountAccessGuard
 import com.sanisamoj.utils.analyzers.dotEnv
 import io.ktor.server.application.*
@@ -12,7 +12,6 @@ import io.ktor.server.auth.*
 import io.ktor.server.auth.jwt.*
 import io.ktor.server.plugins.ratelimit.*
 import io.ktor.server.request.*
-import io.ktor.server.response.*
 import kotlinx.serialization.json.Json
 import kotlin.time.Duration.Companion.hours
 import kotlin.time.Duration.Companion.seconds
@@ -59,14 +58,10 @@ fun Application.configureRateLimit() {
     install(RateLimit) {
         register(RateLimitName("protected")) {
             rateLimiter(limit = 5, refillPeriod = 1.hours)
-
-            // Executar função para bloquear ip
         }
 
         register(RateLimitName("lightweight")) {
             rateLimiter(limit = 5, refillPeriod = 1.seconds)
-
-            // Executar função para bloquear ip
         }
 
         register(RateLimitName("register")) {
