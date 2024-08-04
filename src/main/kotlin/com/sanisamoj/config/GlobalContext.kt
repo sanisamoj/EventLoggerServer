@@ -1,4 +1,4 @@
-package com.sanisamoj.context
+package com.sanisamoj.config
 
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
 import com.sanisamoj.data.models.interfaces.SessionRepository
@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit
 object GlobalContext {
     const val EMPTY_VALUE: String = ""
     const val EMPTY_VALIDATION_CODE: Int = -1
-    val VERSION: String = "0.2.1"
+    const val VERSION: String = "0.2.3"
 
     var mobileMinVersion: String = "1.0.0"
         private set

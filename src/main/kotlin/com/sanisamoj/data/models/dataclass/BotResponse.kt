@@ -1,6 +1,6 @@
 package com.sanisamoj.data.models.dataclass
 
-import com.sanisamoj.context.GlobalContext.EMPTY_VALUE
+import com.sanisamoj.config.GlobalContext.EMPTY_VALUE
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -9,6 +9,10 @@ data class BotResponse(
     val name: String,
     val description: String,
     val number: String,
-    val profileImage: String,
-    val qrCode: String = EMPTY_VALUE
+    val profileImageUrl: String,
+    val qrCode: String = EMPTY_VALUE,
+    val groupsId: List<String>,
+    val config: NotifyBotConfig? = null,
+    val active: Boolean,
+    val createdAt: String
 )

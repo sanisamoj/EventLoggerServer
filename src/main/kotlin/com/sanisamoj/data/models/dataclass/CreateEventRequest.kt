@@ -1,6 +1,6 @@
 package com.sanisamoj.data.models.dataclass
 
-import com.sanisamoj.context.GlobalContext.EMPTY_VALUE
+import com.sanisamoj.config.GlobalContext.EMPTY_VALUE
 import com.sanisamoj.data.models.enums.EventSeverity
 import kotlinx.serialization.Serializable
 

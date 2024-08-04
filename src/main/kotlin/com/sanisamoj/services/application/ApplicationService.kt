@@ -1,7 +1,7 @@
 package com.sanisamoj.services.application
 
-import com.sanisamoj.context.GlobalContext
-import com.sanisamoj.context.GlobalContext.APPLICATION_SERVICE_TOKEN_EXPIRATION
+import com.sanisamoj.config.GlobalContext
+import com.sanisamoj.config.GlobalContext.APPLICATION_SERVICE_TOKEN_EXPIRATION
 import com.sanisamoj.data.models.dataclass.*
 import com.sanisamoj.data.models.enums.Errors
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
@@ -13,17 +13,17 @@ import org.mindrot.jbcrypt.BCrypt
 
 class ApplicationService(private val databaseRepository: DatabaseRepository = GlobalContext.databaseRepository) {
     suspend fun create(createApplicationServiceRequest: CreateApplicationServiceRequest): ApplicationServiceResponse {
-        val applicationName = createApplicationServiceRequest.applicationName
-        val description = createApplicationServiceRequest.description
-        val hashedPassword = BCrypt.hashpw(createApplicationServiceRequest.password , BCrypt.gensalt())
+        val applicationName: String = createApplicationServiceRequest.applicationName
+        val description: String = createApplicationServiceRequest.description
+        val hashedPassword: String = BCrypt.hashpw(createApplicationServiceRequest.password , BCrypt.gensalt())
 
-        val applicationServiceData = databaseRepository.createApplicationService(applicationName, description, hashedPassword)
+        val applicationServiceData: ApplicationServiceData = databaseRepository.createApplicationService(applicationName, description, hashedPassword)
         return ApplicationServiceFactory.applicationServiceResponse(applicationServiceData)
     }
 
     suspend fun login(login: ApplicationServiceLoginRequest): AuthenticationResponse {
-        val applicationService = databaseRepository.getApplicationServiceByName(login.applicationName)
-        val isPasswordCorrect = BCrypt.checkpw(login.password, applicationService.password)
+        val applicationService: ApplicationServiceData = databaseRepository.getApplicationServiceByName(login.applicationName)
+        val isPasswordCorrect: Boolean = BCrypt.checkpw(login.password, applicationService.password)
         if (!isPasswordCorrect) throw Exception(Errors.InvalidEmailOrPassword.description)
 
         val tokenInfo = TokenInfo(
@@ -33,13 +33,13 @@ class ApplicationService(private val databaseRepository: DatabaseRepository = Gl
             time = APPLICATION_SERVICE_TOKEN_EXPIRATION
         )
 
-        val token = TokenGenerator.applicationService(tokenInfo)
+        val token: String = TokenGenerator.applicationService(tokenInfo)
 
         return AuthenticationResponse(token)
     }
 
     suspend fun getAllApplicationService(): List<ApplicationServiceResponse> {
-        val applicationServiceList = databaseRepository.getAllApplicationServices()
+        val applicationServiceList: List<ApplicationServiceData> = databaseRepository.getAllApplicationServices()
         val applicationServiceResponseList: MutableList<ApplicationServiceResponse> = mutableListOf()
         applicationServiceList.forEach {
             applicationServiceResponseList.add(ApplicationServiceFactory.applicationServiceResponse(it))
@@ -52,7 +52,7 @@ class ApplicationService(private val databaseRepository: DatabaseRepository = Gl
     }
 
     suspend fun updatePassword(applicationId: String, newPassword: String) {
-        val hashedPassword = BCrypt.hashpw(newPassword , BCrypt.gensalt())
+        val hashedPassword: String = BCrypt.hashpw(newPassword , BCrypt.gensalt())
         val update = OperationField(Fields.Password, hashedPassword)
         databaseRepository.updateApplicationService(applicationId, update)
     }

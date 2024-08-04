@@ -2,8 +2,8 @@ package com.sanisamoj.services.operator
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.sanisamoj.context.GlobalContext
-import com.sanisamoj.context.GlobalContext.OPERATOR_TOKEN_EXPIRATION
+import com.sanisamoj.config.GlobalContext
+import com.sanisamoj.config.GlobalContext.OPERATOR_TOKEN_EXPIRATION
 import com.sanisamoj.data.models.enums.Errors
 import com.sanisamoj.data.models.enums.OperatorStatus
 import com.sanisamoj.data.models.dataclass.LiveSession
@@ -33,23 +33,23 @@ class OperatorAuthenticationService(
     private val sessionRepository: SessionRepository = GlobalContext.sessionRepository
 ) {
     suspend fun login(login: OperatorLoginRequest): OperatorLoginResponse {
-        val operator = databaseRepository.getOperatorByEmail(login.email)
+        val operator: Operator = databaseRepository.getOperatorByEmail(login.email)
         verifyOperatorStatus(operator)
 
-        val isPasswordCorrect = BCrypt.checkpw(login.password, operator.password)
+        val isPasswordCorrect: Boolean = BCrypt.checkpw(login.password, operator.password)
         if (!isPasswordCorrect) throw Exception(Errors.InvalidEmailOrPassword.description)
 
-        val sessionId = ObjectId().toString()
+        val sessionId: String = ObjectId().toString()
         val tokenInfo = TokenInfo(
             id = operator.id.toString(),
             email = operator.email,
             sessionId = sessionId,
             time = OPERATOR_TOKEN_EXPIRATION
         )
-        val token = TokenGenerator.moderator(tokenInfo)
+        val token: String = TokenGenerator.moderator(tokenInfo)
 
         registerSession(operator.id.toString(), sessionId)
-        val operatorResponse = OperatorFactory.operatorResponse(operator)
+        val operatorResponse: OperatorResponse = OperatorFactory.operatorResponse(operator)
 
         return OperatorLoginResponse(operatorResponse, token)
     }
@@ -61,7 +61,7 @@ class OperatorAuthenticationService(
     }
 
     private suspend fun registerSession(operatorId: String, sessionId: String) {
-        val liveSessions = sessionRepository.getSession(operatorId)
+        val liveSessions: LiveSessions? = sessionRepository.getSession(operatorId)
         val liveSession = LiveSession(sessionId, LocalDateTime.now().toString())
 
         if (liveSessions == null) {
@@ -73,20 +73,20 @@ class OperatorAuthenticationService(
             return sessionRepository.setSession(updatedLiveSessions)
         }
 
-        val liveSessionFoundBySession = liveSessions.sessions.find { it.sessionId == sessionId }
+        val liveSessionFoundBySession: LiveSession? = liveSessions.sessions.find { it.sessionId == sessionId }
         if (liveSessionFoundBySession == null) {
             val liveSessionList = liveSessions.sessions.toMutableList()
             liveSessionList.add(liveSession)
 
-            val updatedLiveSessions = liveSessions.copy(sessions = liveSessionList)
+            val updatedLiveSessions: LiveSessions = liveSessions.copy(sessions = liveSessionList)
 
             return sessionRepository.setSession(updatedLiveSessions)
         }
     }
 
     suspend fun generateValidationEmailToken(email: String) {
-        val adminEmail = dotEnv("SUPERADMIN_EMAIL")
-        val operator = databaseRepository.getOperatorByEmail(email)
+        val adminEmail: String = dotEnv("SUPERADMIN_EMAIL")
+        val operator: Operator = databaseRepository.getOperatorByEmail(email)
 
         val tokenInfo = TokenInfo(
             email = operator.email,
@@ -95,7 +95,7 @@ class OperatorAuthenticationService(
             time = TimeUnit.MINUTES.toMillis(5)
         )
 
-        val token = TokenGenerator.moderator(tokenInfo)
+        val token: String = TokenGenerator.moderator(tokenInfo)
 
         CoroutineScope(Dispatchers.Default).launch {
             MailNotificationService().sendConfirmationTokenEmail(
@@ -107,11 +107,11 @@ class OperatorAuthenticationService(
     }
 
     suspend fun activateOperatorByToken(token: String) {
-        val secret = dotEnv("OPERATOR_SECRET")
+        val secret: String = dotEnv("OPERATOR_SECRET")
 
         val verifier = JWT.require(Algorithm.HMAC256(secret)).build()
         val decodedJWT = verifier.verify(token)
-        val operatorId = decodedJWT.getClaim("id").asString()
+        val operatorId: String = decodedJWT.getClaim("id").asString()
 
         activateOperatorById(operatorId)
     }

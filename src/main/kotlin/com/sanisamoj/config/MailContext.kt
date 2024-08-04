@@ -1,6 +1,5 @@
-package com.sanisamoj.context
+package com.sanisamoj.config
 
-import com.sanisamoj.utils.analyzers.dotEnv
 import kotlinx.html.*
 import kotlinx.html.stream.createHTML
 

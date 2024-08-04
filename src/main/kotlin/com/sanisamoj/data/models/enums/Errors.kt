@@ -1,6 +1,6 @@
 package com.sanisamoj.data.models.enums
 
-import com.sanisamoj.context.GlobalContext.errorMessages
+import com.sanisamoj.config.GlobalContext.errorMessages
 
 enum class Errors(val description: String) {
     AccountAlreadyExists(description = errorMessages.accountAlreadyExists),

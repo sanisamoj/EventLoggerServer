@@ -1,6 +1,6 @@
 package com.sanisamoj.routing
 
-import com.sanisamoj.context.GlobalContext
+import com.sanisamoj.config.GlobalContext
 import com.sanisamoj.data.models.dataclass.ApplicationServiceLoginRequest
 import com.sanisamoj.data.models.dataclass.CreateApplicationServiceRequest
 import com.sanisamoj.data.models.dataclass.VersionResponse

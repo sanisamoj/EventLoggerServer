@@ -1,6 +1,6 @@
 package com.sanisamoj.data.models.dataclass
 
-import com.sanisamoj.context.GlobalContext.EMPTY_VALUE
+import com.sanisamoj.config.GlobalContext.EMPTY_VALUE
 import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
 import java.time.LocalDateTime

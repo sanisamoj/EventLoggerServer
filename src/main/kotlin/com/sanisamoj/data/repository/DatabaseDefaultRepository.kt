@@ -1,7 +1,7 @@
 package com.sanisamoj.data.repository
 
-import com.sanisamoj.context.GlobalContext.EMPTY_VALIDATION_CODE
-import com.sanisamoj.context.GlobalContext.errorMessages
+import com.sanisamoj.config.GlobalContext.EMPTY_VALIDATION_CODE
+import com.sanisamoj.config.GlobalContext.errorMessages
 import com.sanisamoj.data.models.enums.Errors
 import com.sanisamoj.data.models.dataclass.ApplicationServiceData
 import com.sanisamoj.data.models.dataclass.EventLoggerFilter

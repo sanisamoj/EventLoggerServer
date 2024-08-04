@@ -1,10 +1,11 @@
 package com.sanisamoj.services.operator
 
-import com.sanisamoj.context.GlobalContext
+import com.sanisamoj.config.GlobalContext
 import com.sanisamoj.data.models.enums.Errors
 import com.sanisamoj.data.models.enums.OperatorStatus
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
 import com.sanisamoj.data.models.dataclass.CreateOperatorRequest
+import com.sanisamoj.data.models.dataclass.Operator
 import com.sanisamoj.data.models.dataclass.OperatorResponse
 import com.sanisamoj.database.mongodb.Fields
 import com.sanisamoj.database.mongodb.OperationField
@@ -14,8 +15,8 @@ class OperatorService(private val databaseRepository: DatabaseRepository = Globa
         verifyIfOperatorAlreadyExists(createOperatorRequest)
         verifyCreateOperatorRequest(createOperatorRequest)
 
-        val operator = OperatorFactory.Operator(createOperatorRequest)
-        val operatorInDb = databaseRepository.createOperator(operator)
+        val operator: Operator = OperatorFactory.Operator(createOperatorRequest)
+        val operatorInDb: Operator = databaseRepository.createOperator(operator)
         return OperatorFactory.operatorResponse(operatorInDb)
     }
 
@@ -30,14 +31,14 @@ class OperatorService(private val databaseRepository: DatabaseRepository = Globa
     }
 
     private fun verifyCreateOperatorRequest(createOperatorRequest: CreateOperatorRequest) {
-        val validations = mapOf(
+        val validations: Map<String, String> = mapOf(
             "Name" to createOperatorRequest.name,
             "Email" to createOperatorRequest.email,
             "Phone" to createOperatorRequest.phone,
             "Password" to createOperatorRequest.password
         )
 
-        validations.forEach { (field, value) ->
+        validations.forEach { (_, value) ->
             if (value.isEmpty()) {
                 throw IllegalArgumentException(Errors.DataIsMissing.description)
             }
@@ -49,7 +50,7 @@ class OperatorService(private val databaseRepository: DatabaseRepository = Globa
     }
 
     suspend fun blockOperatorByEmail(email: String) {
-        val operator = databaseRepository.getOperatorByEmail(email)
+        val operator: Operator = databaseRepository.getOperatorByEmail(email)
         val update = OperationField(Fields.Status, OperatorStatus.Blocked.name)
         databaseRepository.updateOperator(operator.id.toString(), update)
     }

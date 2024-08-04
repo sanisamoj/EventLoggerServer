@@ -2,7 +2,7 @@ package com.sanisamoj.plugins
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.sanisamoj.context.GlobalContext
+import com.sanisamoj.config.GlobalContext
 import com.sanisamoj.data.models.dataclass.OperatorLoginRequest
 import com.sanisamoj.data.models.enums.Errors
 import com.sanisamoj.security.AccountAccessGuard
