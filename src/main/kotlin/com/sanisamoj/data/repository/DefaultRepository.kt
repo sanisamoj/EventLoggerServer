@@ -2,13 +2,9 @@ package com.sanisamoj.data.repository
 
 import com.sanisamoj.config.GlobalContext.EMPTY_VALIDATION_CODE
 import com.sanisamoj.config.GlobalContext.errorMessages
+import com.sanisamoj.data.models.dataclass.*
 import com.sanisamoj.data.models.enums.Errors
-import com.sanisamoj.data.models.dataclass.ApplicationServiceData
-import com.sanisamoj.data.models.dataclass.EventLoggerFilter
-import com.sanisamoj.data.models.dataclass.LogEvent
-import com.sanisamoj.data.models.dataclass.Operator
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
-import com.sanisamoj.data.models.dataclass.CreateEventRequest
 import com.sanisamoj.database.mongodb.CollectionsInDb
 import com.sanisamoj.database.mongodb.Fields
 import com.sanisamoj.database.mongodb.MongodbOperations
@@ -20,7 +16,7 @@ import org.bson.types.ObjectId
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-class DatabaseDefaultRepository: DatabaseRepository {
+class DefaultRepository: DatabaseRepository {
     override suspend fun createOperator(operator: Operator): Operator {
         val operatorId = MongodbOperations().register(CollectionsInDb.Operators, operator).toString()
         return getOperatorById(operatorId)
@@ -252,5 +248,21 @@ class DatabaseDefaultRepository: DatabaseRepository {
 
     override suspend fun getAllApplicationServices(): List<ApplicationServiceData> {
         return MongodbOperations().findAll(CollectionsInDb.ApplicationServices)
+    }
+
+    override suspend fun getAllBots(): List<Bot> {
+        return MongodbOperations().findAll(CollectionsInDb.Bots)
+    }
+
+    override suspend fun registerBot(bot: Bot): Bot {
+        val botId: String = MongodbOperations().register(CollectionsInDb.Bots, bot).toString()
+        return getBotById(botId)
+    }
+
+    private suspend fun getBotById(id: String): Bot {
+        return MongodbOperations().findOne<Bot>(
+            collectionName = CollectionsInDb.Bots,
+            filter = OperationField(Fields.Id, ObjectId(id))
+        ) ?: throw Exception(Errors.BotDoesNotExists.description)
     }
 }

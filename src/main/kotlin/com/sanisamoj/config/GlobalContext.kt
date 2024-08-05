@@ -1,9 +1,12 @@
 package com.sanisamoj.config
 
+import com.sanisamoj.api.BotApi
+import com.sanisamoj.data.models.interfaces.BotRepository
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
 import com.sanisamoj.data.models.interfaces.SessionRepository
 import com.sanisamoj.data.models.language.LanguageResource
-import com.sanisamoj.data.repository.DatabaseDefaultRepository
+import com.sanisamoj.data.repository.DefaultBotRepository
+import com.sanisamoj.data.repository.DefaultRepository
 import com.sanisamoj.data.repository.SessionDefaultRepository
 import java.util.concurrent.TimeUnit
 
@@ -26,14 +29,12 @@ object GlobalContext {
     val OPERATOR_TOKEN_EXPIRATION: Long = TimeUnit.DAYS.toMillis(60)
     val APPLICATION_SERVICE_TOKEN_EXPIRATION: Long = TimeUnit.DAYS.toMillis(90)
 
-    val databaseRepository: DatabaseRepository = DatabaseDefaultRepository()
+    val databaseRepository: DatabaseRepository = DefaultRepository()
     val sessionRepository: SessionRepository = SessionDefaultRepository()
+    val botRepository: BotRepository = DefaultBotRepository(apiService = BotApi.botApiService)
 
     val errorMessages = LanguageResource().errorMessages
     val actionMessages =  LanguageResource().actionMessages
-    val infoMessages = LanguageResource().infoMessages
-    val testMessages = LanguageResource().testMessages
-    val warningMessages = LanguageResource().warningMessages
 
     fun setMinVersion(isMobile: Boolean = false, minVersion: String) {
         if(isMobile) {

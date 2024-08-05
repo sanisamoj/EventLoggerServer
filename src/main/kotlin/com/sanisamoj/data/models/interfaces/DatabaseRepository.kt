@@ -1,11 +1,7 @@
 package com.sanisamoj.data.models.interfaces
 
-import com.sanisamoj.data.models.dataclass.ApplicationServiceData
-import com.sanisamoj.data.models.dataclass.EventLoggerFilter
-import com.sanisamoj.data.models.dataclass.LogEvent
+import com.sanisamoj.data.models.dataclass.*
 import com.sanisamoj.database.mongodb.OperationField
-import com.sanisamoj.data.models.dataclass.Operator
-import com.sanisamoj.data.models.dataclass.CreateEventRequest
 
 interface DatabaseRepository {
     suspend fun createOperator(operator: Operator): Operator
@@ -34,4 +30,7 @@ interface DatabaseRepository {
     suspend fun getApplicationServiceByName(applicationName: String): ApplicationServiceData
     suspend fun updateApplicationService(applicationId: String, update: OperationField): ApplicationServiceData
     suspend fun getAllApplicationServices(): List<ApplicationServiceData>
+
+    suspend fun getAllBots(): List<Bot>
+    suspend fun registerBot(bot: Bot): Bot
 }

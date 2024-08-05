@@ -5,10 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class LanguageResource(
     val errorMessages: ErrorMessages = ErrorMessages(),
-    val actionMessages: ActionMessages = ActionMessages(),
-    val infoMessages: InfoMessages = InfoMessages(),
-    val testMessages: TestMessages = TestMessages(),
-    val warningMessages: WarningMessages = WarningMessages()
+    val actionMessages: ActionMessages = ActionMessages()
 )
 
 @Serializable
@@ -82,76 +79,9 @@ data class ActionMessages(
     val resendValidationCode: String = "Resend validation code!",
     val activateAccount: String = "Please activate your account!",
     val contactSupport: String = "Contact support.",
-    val verifyCredentials: String = "Please check if you entered your email or password correctly",
     val pleaseLoginAgain: String = "Please login again!",
     val tryAgainLater: String = "Try again later!",
     val removePurchased: String = "Please remove purchased tickets."
 )
 
-@Serializable
-data class InfoMessages(
-    val accountCreated: String = "Account created.",
-    val validationCode: String = "This is the validation code, return to the app and enter the code. Do not share this code with third parties, and this code will only be available for 5 minutes",
-    val drawOpen: String = "Open for shopping!",
-    val drawClosed: String = "Closed for shopping!",
-    val drawFinished: String = "Finished!",
-    val waitingForTheResult: String = "Waiting for the result!",
-    val itemsHaveNotBeenAddedOrRemoved: String = "Items have not been added or removed.",
-    val onlyMediaTypeAllowed: String = "Only media types are allowed: [ .jpeg, .png, .jpg, .gif ]"
-)
 
-@Serializable
-data class TestMessages(
-    val creationAccountTest: String = "Creation account test.",
-    val creationAccountWithTheSameEmailTest: String = "Creation account with the same email test.",
-    val creationAccountWithWrongData: String = "Creation account with wrong data test.",
-    val accountLoginTest: String = "Account login test",
-    val accountLoginWithWrongPasswordTest: String = "Account login with wrong password test.",
-    val accountActivateTest: String = "Account activation test",
-    val accountActivateWithWrongCodeTest: String = "Account activation with wrong code test",
-    val generateCodeValidationTest: String = "Account generate code validation test.",
-    val generateCodeValidationWithNonexistentTest: String = "Account generate code validation with nonexistent email test.",
-    val userAccountSessionTest: String = "User account session test.",
-    val userAccountSessionWithWrongTokenTest: String = "User account session with wrong token test.",
-    val userAccountSignoutTest: String = "User account sign out test.",
-    val userAccountLoginWithRevokedTokenTest: String = "User account login with revoked token test.",
-    val drawCreationTest: String = "Draw creation test.",
-    val drawCreationWithModifiedTokenTest: String = "Draw creation with modified token test.",
-    val drawUpdateRequestTest: String = "Draw update request test.",
-    val drawDataComparisonTest: String = "Draw data comparison test.",
-    val drawDeleteTest: String = "Draw delete test.",
-    val deleteNoneDrawTest: String = "Delete nonexistent draw test.",
-    val deleteDrawWithModifiedToken: String = "Delete draw with modified token test.",
-    val getDrawByIdForTheAdminTest: String = "Get draw by ID with the admin test.",
-    val getDrawByIdTest: String = "Get draw by ID test.",
-    val drawDataComparisonWithGenericResponseTest: String = "Draw data comparison with generic response test.",
-    val paginationItemsCountTest: String = "Pagination items count test.",
-    val createModeratorCommentTest: String = "Moderator comment creation test.",
-    val createUserCommentTest: String = "User comment creation test.",
-    val deleteCommentByAdminTest: String = "Delete comment by admin test.",
-    val checkEligibilityRedemptionCodeTest: String = "Check redemption code eligibility test.",
-    val checkExpiredCodeTest: String = "Check expired code test.",
-    val createRedemptionCodeTest: String = "Create redemption code test.",
-    val deleteRedemptionCodeTest: String = "Delete redemption code test",
-    val dataComparisonTest: String = "Data comparison test.",
-    val addItemToShoppingCart: String = "Addition item to shopping cart test.",
-    val removeItemToShoppingCart: String = "Remove item to shopping cart test.",
-    val creatingOrderWithoutItems: String = "Creating order without items in cart test.",
-    val creatingOrderWithPix: String = "Creating order with pix test.",
-    val creatingOrderWithCredit: String = "Creating order with credit test.",
-    val createCryptographyCard: String = "Create cryptography card test.",
-    val purchasedDataComparison: String = "Purchased data comparison test.",
-    val getImage: String = "Get image test.",
-    val postImageByAdmin: String = "Post image by admin test.",
-    val deleteImageByAdmin: String = "Delete image by admin test.",
-    val verifyIfFileExists: String = "Verify if file does exist test.",
-    val setImageProfile: String = "Set image profile test.",
-    val removeImageProfile: String = "Remove image profile test.",
-    val dataComparisonImageProfile: String = "Data comparison image profile test.",
-)
-
-@Serializable
-data class WarningMessages(
-    val yourVerificationCodeIs: String = "Your verification code is:",
-    val doNotShareThisCode: String = "Do not share this code with anyone. It's only 5 minutes long"
-)

@@ -1,5 +1,5 @@
 ## EventLoggerServer
-Um servidor, que centraliza logs de outras aplicações.
+Um servidor que centraliza e gerencia logs de várias aplicações, proporcionando uma visão unificada e consolidada dos eventos registrados, facilitando a monitoração, análise e resolução de problemas.
 
 ## Objetivos
 O EventLoggerServer tem como objetivo centralizar logs de aplicações ou microservices, reunindo todas as informações em um único lugar para facilitar a visualização e gerenciamento.

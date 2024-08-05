@@ -6,5 +6,7 @@ import kotlinx.serialization.Serializable
 data class CreateBotRequest(
     val name: String,
     val description: String,
-    val profileImage: String
+    val profileImage: String,
+    val admins: List<String>,
+    val config: NotifyBotConfig? = null
 )

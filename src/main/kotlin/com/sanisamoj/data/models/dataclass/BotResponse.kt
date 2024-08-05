@@ -11,7 +11,7 @@ data class BotResponse(
     val number: String,
     val profileImageUrl: String,
     val qrCode: String = EMPTY_VALUE,
-    val groupsId: List<String>,
+    val groups: List<GroupResponse>,
     val config: NotifyBotConfig? = null,
     val active: Boolean,
     val createdAt: String

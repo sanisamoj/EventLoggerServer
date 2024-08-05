@@ -47,10 +47,7 @@ fun errorResponse(errorMessage: String?): Pair<HttpStatusCode, ErrorResponse> {
         }
 
         errorMessages.invalidEmailOrPassword -> {
-            HttpStatusCode.Unauthorized to ErrorResponse(
-                errorMessages.invalidEmailOrPassword,
-                actionMessages.verifyCredentials
-            )
+            HttpStatusCode.Unauthorized to ErrorResponse(errorMessages.invalidEmailOrPassword)
         }
 
         errorMessages.revokedToken -> {

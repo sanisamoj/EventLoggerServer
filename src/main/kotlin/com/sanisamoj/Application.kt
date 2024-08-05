@@ -1,7 +1,6 @@
 package com.sanisamoj
 
-import com.sanisamoj.database.mongodb.MongoDatabase
-import com.sanisamoj.database.redis.Redis
+import com.sanisamoj.config.Config
 import com.sanisamoj.plugins.*
 import io.ktor.server.application.*
 import kotlinx.coroutines.CoroutineScope
@@ -25,7 +24,6 @@ fun Application.module() {
 
 fun startBackgroundTasks() {
     CoroutineScope(Dispatchers.Default).launch {
-        MongoDatabase.initialize()
-        Redis.initialize()
+        Config.initialize()
     }
 }
