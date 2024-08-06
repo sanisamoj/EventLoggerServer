@@ -1,6 +1,7 @@
 package com.sanisamoj
 
 import com.sanisamoj.config.Config
+import com.sanisamoj.config.GlobalContext
 import com.sanisamoj.plugins.*
 import io.ktor.server.application.*
 import kotlinx.coroutines.CoroutineScope
@@ -25,5 +26,6 @@ fun Application.module() {
 fun startBackgroundTasks() {
     CoroutineScope(Dispatchers.Default).launch {
         Config.initialize()
+        println(GlobalContext.warningMessagesToChat)
     }
 }

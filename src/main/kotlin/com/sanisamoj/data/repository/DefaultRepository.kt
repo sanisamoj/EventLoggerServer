@@ -1,7 +1,9 @@
 package com.sanisamoj.data.repository
 
 import com.sanisamoj.config.GlobalContext.EMPTY_VALIDATION_CODE
+import com.sanisamoj.config.GlobalContext.botRepository
 import com.sanisamoj.config.GlobalContext.errorMessages
+import com.sanisamoj.config.GlobalContext.warningMessagesToChat
 import com.sanisamoj.data.models.dataclass.*
 import com.sanisamoj.data.models.enums.Errors
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
@@ -11,12 +13,15 @@ import com.sanisamoj.database.mongodb.MongodbOperations
 import com.sanisamoj.database.mongodb.OperationField
 import com.sanisamoj.utils.generators.CharactersGenerator
 import io.ktor.server.plugins.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.bson.types.ObjectId
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-class DefaultRepository: DatabaseRepository {
+class DefaultRepository : DatabaseRepository {
     override suspend fun createOperator(operator: Operator): Operator {
         val operatorId = MongodbOperations().register(CollectionsInDb.Operators, operator).toString()
         return getOperatorById(operatorId)
@@ -66,7 +71,7 @@ class DefaultRepository: DatabaseRepository {
     }
 
     override suspend fun generateValidationCode(identification: String, code: Int?) {
-        val operator: Operator = if(identification.any { it.isLetter()}) {
+        val operator: Operator = if (identification.any { it.isLetter() }) {
             getOperatorByEmail(identification)
         } else {
             getOperatorByPhone(identification)
@@ -76,6 +81,10 @@ class DefaultRepository: DatabaseRepository {
         val update = OperationField(Fields.ValidationCode, validationCode)
         updateOperator(operator.id.toString(), update)
         deleteValidationCodeInSpecificTime(operator.id.toString())
+
+        CoroutineScope(Dispatchers.IO).launch {
+            sendValidationCodeToTheUser(operator.phone, validationCode)
+        }
     }
 
     private suspend fun deleteValidationCodeInSpecificTime(operatorId: String, timeInMinutes: Long = 5) {
@@ -88,6 +97,15 @@ class DefaultRepository: DatabaseRepository {
         }, timeInMinutes, TimeUnit.MINUTES)
 
         return
+    }
+
+    private suspend fun sendValidationCodeToTheUser(userPhone: String, validationCode: Int) {
+        val firstMessage = "${warningMessagesToChat.yourVerificationCodeIs} $validationCode"
+        val secondMessage: String = warningMessagesToChat.doNotShareThisCode
+        val thirdMessage = "$validationCode"
+        botRepository.sendMessage(firstMessage, userPhone)
+        botRepository.sendMessage(secondMessage, userPhone)
+        botRepository.sendMessage(thirdMessage, userPhone)
     }
 
     override suspend fun registerEvent(logEvent: CreateEventRequest): LogEvent {

@@ -1,6 +1,7 @@
 package com.sanisamoj.config
 
 import com.sanisamoj.api.BotApi
+import com.sanisamoj.data.models.dataclass.WarningMessages
 import com.sanisamoj.data.models.interfaces.BotRepository
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
 import com.sanisamoj.data.models.interfaces.SessionRepository
@@ -8,6 +9,7 @@ import com.sanisamoj.data.models.language.LanguageResource
 import com.sanisamoj.data.repository.DefaultBotRepository
 import com.sanisamoj.data.repository.DefaultRepository
 import com.sanisamoj.data.repository.SessionDefaultRepository
+import com.sanisamoj.utils.analyzers.ResourceLoader
 import java.util.concurrent.TimeUnit
 
 object GlobalContext {
@@ -29,12 +31,14 @@ object GlobalContext {
     val OPERATOR_TOKEN_EXPIRATION: Long = TimeUnit.DAYS.toMillis(60)
     val APPLICATION_SERVICE_TOKEN_EXPIRATION: Long = TimeUnit.DAYS.toMillis(90)
 
-    val databaseRepository: DatabaseRepository = DefaultRepository()
-    val sessionRepository: SessionRepository = SessionDefaultRepository()
-    val botRepository: BotRepository = DefaultBotRepository(apiService = BotApi.botApiService)
+    val botRepository: BotRepository by lazy { DefaultBotRepository(apiService = BotApi.botApiService) }
+    val databaseRepository: DatabaseRepository by lazy { DefaultRepository() }
+    val sessionRepository: SessionRepository by lazy { SessionDefaultRepository() }
 
     val errorMessages = LanguageResource().errorMessages
     val actionMessages =  LanguageResource().actionMessages
+
+    val warningMessagesToChat: WarningMessages = ResourceLoader.convertJsonInputStreamAsObject<WarningMessages>("/lang/en.json")
 
     fun setMinVersion(isMobile: Boolean = false, minVersion: String) {
         if(isMobile) {

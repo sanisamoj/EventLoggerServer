@@ -106,6 +106,10 @@ class OperatorAuthenticationService(
         }
     }
 
+    suspend fun generateValidationCodeByWhatsapp(identification: String) {
+        databaseRepository.generateValidationCode(identification)
+    }
+
     suspend fun activateOperatorByToken(token: String) {
         val secret: String = dotEnv("OPERATOR_SECRET")
 

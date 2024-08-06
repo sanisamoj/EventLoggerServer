@@ -4,7 +4,6 @@ import com.sanisamoj.data.models.dataclass.CreateOperatorRequest
 import com.sanisamoj.data.models.dataclass.OperatorLoginRequest
 import com.sanisamoj.data.pages.confirmationPage
 import com.sanisamoj.data.pages.tokenExpiredPage
-import com.sanisamoj.errors.errorResponse
 import com.sanisamoj.services.operator.OperatorAuthenticationService
 import com.sanisamoj.services.operator.OperatorService
 import io.ktor.http.*
@@ -43,7 +42,12 @@ fun Route.operatorRouting() {
             // Responsible for a verification token
             post("/generate") {
                 val identification = call.request.queryParameters["operator"].toString()
-                OperatorAuthenticationService().generateValidationEmailToken(identification)
+                val mobile: Boolean = call.request.queryParameters["mobile"].toString() == "true"
+                if(mobile) {
+                    OperatorAuthenticationService().generateValidationCodeByWhatsapp(identification)
+                } else {
+                    OperatorAuthenticationService().generateValidationEmailToken(identification)
+                }
                 return@post call.respond(HttpStatusCode.OK)
             }
 

@@ -15,18 +15,20 @@ class DefaultBotRepository(
     private val username: String = dotEnv("NY_USERNAME")
     private val password: String = dotEnv("NY_PASSWORD")
     private val adminPhone: String = dotEnv("SUPERADMIN_PHONE")
-    private lateinit var token: String
+    private var token: String = ""
 
     override suspend fun createBot(): Bot {
-        updateToken()
         val botAlreadyExist: List<Bot> = databaseRepository.getAllBots()
+
         if (botAlreadyExist.isEmpty()) {
             val createBotRequest = CreateBotRequest(
                 name = "EventLogger",
-                description = "O sistema de verificação de logs",
-                profileImage = "",
+                description = GlobalContext.warningMessagesToChat.botDescription,
+                profileImage = dotEnv("BOT_IMAGE_URL"),
                 admins = listOf(adminPhone)
             )
+
+            updateToken()
             val botResponse: BotResponse = apiService.createBot(createBotRequest, token)
 
             val bot = Bot(

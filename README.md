@@ -71,7 +71,13 @@ SMTP_SOCKETFACTORY_CLASS=javax.net.ssl.SSLSocketFactory
 SMTP_AUTH=true
 SMTP_PORT=465
 SMTP_SSL_TRUST=*
+
+#API de BOTS para notificação
+BOTS_BASE_URL=
+#URL da imagem do bot
+BOT_IMAGE_URL=
 ```
+> Nas configurações de Email, foi adicionado uma pré-configuração para utilizar os serviços do Gmail. Para a Senha do Email, é necessário gerar uma senha para aplicação em "Apps menos seguros" na sua conta do Gmail.
 
 #### Execute o comando a seguir para construir a imagem Docker.
 
