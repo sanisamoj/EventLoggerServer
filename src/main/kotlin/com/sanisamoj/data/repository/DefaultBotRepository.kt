@@ -6,6 +6,7 @@ import com.sanisamoj.data.models.interfaces.BotRepository
 import com.sanisamoj.data.models.interfaces.BotsApiService
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
 import com.sanisamoj.utils.analyzers.dotEnv
+import kotlinx.coroutines.runBlocking
 import org.bson.types.ObjectId
 
 class DefaultBotRepository(
@@ -16,6 +17,10 @@ class DefaultBotRepository(
     private val password: String = dotEnv("NY_PASSWORD")
     private val adminPhone: String = dotEnv("SUPERADMIN_PHONE")
     private var token: String = ""
+
+    init {
+        runBlocking { updateToken() }
+    }
 
     override suspend fun createBot(): Bot {
         val botAlreadyExist: List<Bot> = databaseRepository.getAllBots()
@@ -28,7 +33,6 @@ class DefaultBotRepository(
                 admins = listOf(adminPhone)
             )
 
-            updateToken()
             val botResponse: BotResponse = apiService.createBot(createBotRequest, token)
 
             val bot = Bot(

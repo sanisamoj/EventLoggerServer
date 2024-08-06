@@ -26,6 +26,5 @@ fun Application.module() {
 fun startBackgroundTasks() {
     CoroutineScope(Dispatchers.Default).launch {
         Config.initialize()
-        println(GlobalContext.warningMessagesToChat)
     }
 }
