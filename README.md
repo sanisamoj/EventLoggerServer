@@ -1,7 +1,6 @@
 ## EventLoggerServer
 Um servidor que centraliza e gerencia logs de várias aplicações, proporcionando uma visão unificada e consolidada dos eventos registrados, facilitando a monitoração, análise e resolução de problemas.
 
-## Objetivos
 O EventLoggerServer tem como objetivo centralizar logs de aplicações ou microservices, reunindo todas as informações em um único lugar para facilitar a visualização e gerenciamento.
 
 ## Funcionalidades do Sistema
@@ -28,6 +27,7 @@ ara instalar o projeto para testes, utilizaremos o Docker.
 - Instale a última versão do **Docker** em sua máquina.
 - Instale o **Mongodb** (Verifique na página oficial, ou monte uma imagem com o Docker).
 - Instale o **Redis** na sua máquina (Verifique a página oficial, ou monte uma imagem com o Docker).
+- Para a autenticação além do uso de E-mail, estou utilizando os bots do projeto [NotifyBot](https://github.com/sanisamoj/NotifyBot).
 - Crie um arquivo **.env** na pasta raiz do projeto, ou adicione um arquivo **.env** manualmente na construção da imagem docker.
 
 ```.env
@@ -72,10 +72,11 @@ SMTP_AUTH=true
 SMTP_PORT=465
 SMTP_SSL_TRUST=*
 
-#API de BOTS para notificação
-BOTS_BASE_URL=
-#URL da imagem do bot
-BOT_IMAGE_URL=
+#Token para notificações do bot
+BOT_URL=http://localhost:8585/
+BOT_LOGIN_EMAIL=
+BOT_LOGIN_PASSWORD=
+BOT_ID=
 ```
 > Nas configurações de Email, foi adicionado uma pré-configuração para utilizar os serviços do Gmail. Para a Senha do Email, é necessário gerar uma senha para aplicação em "Apps menos seguros" na sua conta do Gmail.
 

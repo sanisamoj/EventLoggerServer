@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit
 object GlobalContext {
     const val EMPTY_VALUE: String = ""
     const val EMPTY_VALIDATION_CODE: Int = -1
-    const val VERSION: String = "0.2.3"
+    const val VERSION: String = "0.3.0"
 
     var mobileMinVersion: String = "1.0.0"
         private set

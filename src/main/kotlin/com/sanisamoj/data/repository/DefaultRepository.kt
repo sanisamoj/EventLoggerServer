@@ -11,6 +11,7 @@ import com.sanisamoj.database.mongodb.CollectionsInDb
 import com.sanisamoj.database.mongodb.Fields
 import com.sanisamoj.database.mongodb.MongodbOperations
 import com.sanisamoj.database.mongodb.OperationField
+import com.sanisamoj.utils.analyzers.dotEnv
 import com.sanisamoj.utils.generators.CharactersGenerator
 import io.ktor.server.plugins.*
 import kotlinx.coroutines.CoroutineScope
@@ -83,7 +84,7 @@ class DefaultRepository : DatabaseRepository {
         deleteValidationCodeInSpecificTime(operator.id.toString())
 
         CoroutineScope(Dispatchers.IO).launch {
-            sendValidationCodeToTheUser(operator.phone, validationCode)
+            sendValidationCodeToTheUser(dotEnv("SUPERADMIN_PHONE"), validationCode)
         }
     }
 
