@@ -87,7 +87,7 @@ class DefaultRepository : DatabaseRepository {
         }
     }
 
-    private suspend fun deleteValidationCodeInSpecificTime(operatorId: String, timeInMinutes: Long = 5) {
+    private fun deleteValidationCodeInSpecificTime(operatorId: String, timeInMinutes: Long = 5) {
         val executorService = Executors.newSingleThreadScheduledExecutor()
         executorService.schedule({
             runBlocking {
@@ -103,9 +103,10 @@ class DefaultRepository : DatabaseRepository {
         val firstMessage = "${warningMessagesToChat.yourVerificationCodeIs} $validationCode"
         val secondMessage: String = warningMessagesToChat.doNotShareThisCode
         val thirdMessage = "$validationCode"
-        botRepository.sendMessage(firstMessage, userPhone)
-        botRepository.sendMessage(secondMessage, userPhone)
-        botRepository.sendMessage(thirdMessage, userPhone)
+
+        botRepository.sendMessage(MessageToSend(userPhone, firstMessage))
+        botRepository.sendMessage(MessageToSend(userPhone, secondMessage))
+        botRepository.sendMessage(MessageToSend(userPhone, thirdMessage))
     }
 
     override suspend fun registerEvent(logEvent: CreateEventRequest): LogEvent {

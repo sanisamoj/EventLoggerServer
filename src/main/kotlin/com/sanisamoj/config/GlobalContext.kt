@@ -31,7 +31,7 @@ object GlobalContext {
     val OPERATOR_TOKEN_EXPIRATION: Long = TimeUnit.DAYS.toMillis(60)
     val APPLICATION_SERVICE_TOKEN_EXPIRATION: Long = TimeUnit.DAYS.toMillis(90)
 
-    val botRepository: BotRepository by lazy { DefaultBotRepository(apiService = BotApi.botApiService) }
+    val botRepository: BotRepository by lazy { DefaultBotRepository(botApiService = BotApi.botApiService) }
     val databaseRepository: DatabaseRepository by lazy { DefaultRepository() }
     val sessionRepository: SessionRepository by lazy { SessionDefaultRepository() }
 

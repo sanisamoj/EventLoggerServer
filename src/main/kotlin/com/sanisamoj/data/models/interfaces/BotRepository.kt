@@ -1,9 +1,8 @@
 package com.sanisamoj.data.models.interfaces
 
-import com.sanisamoj.data.models.dataclass.Bot
+import com.sanisamoj.data.models.dataclass.MessageToSend
 
 interface BotRepository {
-    suspend fun createBot(): Bot
-    suspend fun sendMessage(message: String, phone: String)
-    suspend fun getBot(): Bot
+    suspend fun updateToken()
+    suspend fun sendMessage(messageToSend: MessageToSend)
 }
