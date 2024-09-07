@@ -24,7 +24,7 @@ fun Application.module() {
 
 fun startBackgroundTasks() {
     CoroutineScope(Dispatchers.Default).launch {
-        Config.databaseInitialize()
         Config.botApiInitialize()
+        Config.databaseInitialize()
     }
 }
