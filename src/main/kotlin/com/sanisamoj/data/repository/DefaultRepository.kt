@@ -84,7 +84,7 @@ class DefaultRepository : DatabaseRepository {
         deleteValidationCodeInSpecificTime(operator.id.toString())
 
         CoroutineScope(Dispatchers.IO).launch {
-            sendValidationCodeToTheUser(dotEnv("SUPERADMIN_PHONE"), validationCode)
+            sendValidationCode(dotEnv("SUPERADMIN_PHONE"), validationCode)
         }
     }
 
@@ -100,7 +100,7 @@ class DefaultRepository : DatabaseRepository {
         return
     }
 
-    private suspend fun sendValidationCodeToTheUser(userPhone: String, validationCode: Int) {
+    private suspend fun sendValidationCode(userPhone: String, validationCode: Int) {
         val firstMessage = "${warningMessagesToChat.yourVerificationCodeIs} $validationCode"
         val secondMessage: String = warningMessagesToChat.doNotShareThisCode
         val thirdMessage = "$validationCode"
