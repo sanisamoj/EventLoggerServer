@@ -4,6 +4,7 @@ import com.sanisamoj.routing.applicationServiceRouting
 import com.sanisamoj.routing.logEventRouting
 import com.sanisamoj.routing.operatorRouting
 import io.ktor.server.application.*
+import io.ktor.server.response.respond
 import io.ktor.server.routing.*
 
 fun Application.configureRouting() {
@@ -11,5 +12,9 @@ fun Application.configureRouting() {
         operatorRouting()
         applicationServiceRouting()
         logEventRouting()
+
+        get("/test") {
+            return@get call.respond("server" to "ok")
+        }
     }
 }
