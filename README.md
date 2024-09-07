@@ -86,7 +86,7 @@ BOT_ID=
 
 #### Execute o comando a seguir para executar a imagem criada com o Docker.
 
-    docker run --name eventlog -p 9091:9091 eventlog:latest
+    docker run --name eventlog -p 9096:9096 eventlog:latest
 
 #### Configuração de E-mail
 

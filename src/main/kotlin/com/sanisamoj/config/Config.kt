@@ -1,5 +1,6 @@
 package com.sanisamoj.config
 
+import com.sanisamoj.data.models.interfaces.BotRepository
 import com.sanisamoj.database.mongodb.MongoDatabase
 import com.sanisamoj.database.redis.Redis
 
@@ -16,6 +17,7 @@ object Config {
     }
 
     private suspend fun botApiInitialize() {
-        GlobalContext.botRepository.updateToken()
+        val botRepository: BotRepository = GlobalContext.botRepository
+        botRepository.updateToken()
     }
 }

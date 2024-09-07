@@ -16,6 +16,7 @@ class DefaultBotRepository(
     override suspend fun updateToken() {
         val loginRequest = LoginRequest(email, password)
         token = botApiService.login(loginRequest).token
+        println(token)
     }
 
     override suspend fun sendMessage(messageToSend: MessageToSend) {
