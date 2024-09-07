@@ -6,17 +6,12 @@ import com.sanisamoj.database.redis.Redis
 
 object Config {
 
-    suspend fun initialize() {
-        databaseInitialize()
-        botApiInitialize()
-    }
-
-    private suspend fun databaseInitialize() {
+    suspend fun databaseInitialize() {
         MongoDatabase.initialize()
         Redis.initialize()
     }
 
-    private suspend fun botApiInitialize() {
+    suspend fun botApiInitialize() {
         val botRepository: BotRepository = GlobalContext.botRepository
         botRepository.updateToken()
     }
