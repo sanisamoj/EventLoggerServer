@@ -12,9 +12,5 @@ fun Application.configureRouting() {
         operatorRouting()
         applicationServiceRouting()
         logEventRouting()
-
-        get("/test") {
-            return@get call.respond("server" to "ok")
-        }
     }
 }
