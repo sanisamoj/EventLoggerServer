@@ -269,20 +269,4 @@ class DefaultRepository : DatabaseRepository {
     override suspend fun getAllApplicationServices(): List<ApplicationServiceData> {
         return MongodbOperations().findAll(CollectionsInDb.ApplicationServices)
     }
-
-    override suspend fun getAllBots(): List<Bot> {
-        return MongodbOperations().findAll(CollectionsInDb.Bots)
-    }
-
-    override suspend fun registerBot(bot: Bot): Bot {
-        val botId: String = MongodbOperations().register(CollectionsInDb.Bots, bot).toString()
-        return getBotById(botId)
-    }
-
-    private suspend fun getBotById(id: String): Bot {
-        return MongodbOperations().findOne<Bot>(
-            collectionName = CollectionsInDb.Bots,
-            filter = OperationField(Fields.Id, ObjectId(id))
-        ) ?: throw Exception(Errors.BotDoesNotExists.description)
-    }
 }

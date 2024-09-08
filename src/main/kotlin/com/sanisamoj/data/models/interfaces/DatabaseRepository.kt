@@ -30,7 +30,4 @@ interface DatabaseRepository {
     suspend fun getApplicationServiceByName(applicationName: String): ApplicationServiceData
     suspend fun updateApplicationService(applicationId: String, update: OperationField): ApplicationServiceData
     suspend fun getAllApplicationServices(): List<ApplicationServiceData>
-
-    suspend fun getAllBots(): List<Bot>
-    suspend fun registerBot(bot: Bot): Bot
 }
