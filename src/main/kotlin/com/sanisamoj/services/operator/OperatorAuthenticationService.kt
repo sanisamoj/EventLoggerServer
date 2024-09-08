@@ -130,7 +130,7 @@ class OperatorAuthenticationService(
         return OperatorFactory.operatorResponse(operator)
     }
 
-    suspend fun signOut(operatorId: String, sessionId: String) {
+    suspend fun signOut(sessionId: String) {
         sessionRepository.revokeSession(sessionId)
     }
 }

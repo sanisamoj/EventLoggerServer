@@ -83,10 +83,9 @@ fun Route.operatorRouting() {
                 // Responsible for carrying out operator signout
                 delete("/session") {
                     val principal = call.principal<JWTPrincipal>()!!
-                    val operatorId = principal.payload.getClaim("id").asString()
                     val session = principal.payload.getClaim("session").asString()
 
-                    val operatorLoginResponse = OperatorAuthenticationService().signOut(operatorId, session)
+                    val operatorLoginResponse = OperatorAuthenticationService().signOut(session)
                     return@delete call.respond(operatorLoginResponse)
                 }
             }
