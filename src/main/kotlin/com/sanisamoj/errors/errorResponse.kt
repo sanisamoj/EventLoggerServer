@@ -7,7 +7,7 @@ import com.sanisamoj.data.models.dataclass.ErrorResponse
 import io.ktor.http.*
 
 fun errorResponse(errorMessage: String?): Pair<HttpStatusCode, ErrorResponse> {
-
+    println(errorMessage)
     val response = when (errorMessage) {
 
         errorMessages.dataIsMissing -> {

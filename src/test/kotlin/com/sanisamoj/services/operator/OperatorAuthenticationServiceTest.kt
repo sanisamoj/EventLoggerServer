@@ -5,7 +5,9 @@ import com.sanisamoj.config.GlobalContext.EMPTY_VALUE
 import com.sanisamoj.data.models.dataclass.Operator
 import com.sanisamoj.data.models.dataclass.OperatorLoginRequest
 import com.sanisamoj.data.models.dataclass.OperatorLoginResponse
+import com.sanisamoj.data.models.dataclass.OperatorResponse
 import com.sanisamoj.data.models.dataclass.TokenInfo
+import com.sanisamoj.data.models.dataclass.ValidationCode
 import com.sanisamoj.data.models.enums.OperatorStatus
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
 import com.sanisamoj.database.redis.Redis
@@ -81,7 +83,28 @@ class OperatorAuthenticationServiceTest {
         val operator: Operator = ContextTest.createOperatorTest(OperatorStatus.Disabled)
         operatorAuthenticationService.generateValidationCodeByWhatsapp(operator.email)
         val generatedCode: Int = databaseRepository.getOperatorById(operator.id.toString()).validationCode
+        assertFails { operatorAuthenticationService.activateOperatorByValidationCode(ValidationCode(operator.email, 123456)) }
+        operatorAuthenticationService.activateOperatorByValidationCode(ValidationCode(operator.email, generatedCode))
 
+        val updatedOperator: Operator = databaseRepository.getOperatorByEmail(operator.email)
+        assertEquals(OperatorStatus.Activated.name, updatedOperator.status)
+        ContextTest.deleteOperator()
+    }
 
+    @Test
+    fun sessionTest() = testApplication {
+        val operatorAuthenticationService = OperatorAuthenticationService(
+            mailRepository = ContextTest.mailRepository,
+            databaseRepository = ContextTest.databaseRepository
+        )
+        val operator: Operator = ContextTest.createOperatorTest(OperatorStatus.Activated)
+
+        val operatorResponse: OperatorResponse = operatorAuthenticationService.session(operator.id.toString())
+        assertEquals(operator.id.toString(), operatorResponse.id)
+        assertEquals(operator.name, operatorResponse.name)
+        assertEquals(operator.email, operatorResponse.email)
+        assertEquals(operator.phone, operatorResponse.phone)
+        assertEquals(operator.profileImage, operatorResponse.profileImage)
+        ContextTest.deleteOperator()
     }
 }
