@@ -15,6 +15,8 @@ import com.sanisamoj.data.models.interfaces.SessionRepository
 import com.sanisamoj.data.models.dataclass.OperatorLoginRequest
 import com.sanisamoj.data.models.dataclass.OperatorLoginResponse
 import com.sanisamoj.data.models.dataclass.OperatorResponse
+import com.sanisamoj.data.models.interfaces.MailRepository
+import com.sanisamoj.data.repository.MailDefaultRepository
 import com.sanisamoj.database.mongodb.Fields
 import com.sanisamoj.database.mongodb.OperationField
 import com.sanisamoj.services.email.MailNotificationService
@@ -30,7 +32,8 @@ import java.util.concurrent.TimeUnit
 
 class OperatorAuthenticationService(
     private val databaseRepository: DatabaseRepository = GlobalContext.databaseRepository,
-    private val sessionRepository: SessionRepository = GlobalContext.sessionRepository
+    private val sessionRepository: SessionRepository = GlobalContext.sessionRepository,
+    private val mailRepository: MailRepository = MailDefaultRepository
 ) {
     suspend fun login(login: OperatorLoginRequest): OperatorLoginResponse {
         val operator: Operator = databaseRepository.getOperatorByEmail(login.email)
@@ -98,7 +101,7 @@ class OperatorAuthenticationService(
         val token: String = TokenGenerator.moderator(tokenInfo)
 
         CoroutineScope(Dispatchers.Default).launch {
-            MailNotificationService().sendConfirmationTokenEmail(
+            MailNotificationService(mailRepository).sendConfirmationTokenEmail(
                 name = operator.name,
                 to = adminEmail,
                 token = token

@@ -4,12 +4,15 @@ import com.sanisamoj.config.GlobalContext
 import com.sanisamoj.data.models.dataclass.Operator
 import com.sanisamoj.data.models.enums.OperatorStatus
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
+import com.sanisamoj.data.models.interfaces.MailRepository
 import com.sanisamoj.database.mongodb.Fields
 import com.sanisamoj.database.mongodb.OperationField
 import org.mindrot.jbcrypt.BCrypt
 
 object ContextTest {
     private val databaseRepository: DatabaseRepository by lazy { GlobalContext.databaseRepository }
+    val mailRepository: MailRepository by lazy { MailRepositoryTest() }
+
     val operator  = Operator(
         name = "OperatorTestName",
         email = "operatorEmail@domain.test",
