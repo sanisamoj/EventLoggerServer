@@ -2,6 +2,7 @@ package com.sanisamoj.routing
 
 import com.sanisamoj.data.models.dataclass.CreateOperatorRequest
 import com.sanisamoj.data.models.dataclass.OperatorLoginRequest
+import com.sanisamoj.data.models.dataclass.ValidationCode
 import com.sanisamoj.data.pages.confirmationPage
 import com.sanisamoj.data.pages.tokenExpiredPage
 import com.sanisamoj.services.operator.OperatorAuthenticationService
@@ -66,6 +67,13 @@ fun Route.operatorRouting() {
                         appendHTML().html { tokenExpiredPage() }
                     }, ContentType.Text.Html)
                 }
+            }
+
+            // Responsible for validation a validation code to activate an account by whatsapp
+            post("/activate") {
+                val validationCode: ValidationCode = call.receive<ValidationCode>()
+                OperatorAuthenticationService().activateOperatorByValidationCode(validationCode)
+                return@post call.respond(HttpStatusCode.OK)
             }
 
             authenticate("operator-jwt") {

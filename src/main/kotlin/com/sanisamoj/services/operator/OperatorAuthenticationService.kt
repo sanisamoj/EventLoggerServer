@@ -15,6 +15,7 @@ import com.sanisamoj.data.models.interfaces.SessionRepository
 import com.sanisamoj.data.models.dataclass.OperatorLoginRequest
 import com.sanisamoj.data.models.dataclass.OperatorLoginResponse
 import com.sanisamoj.data.models.dataclass.OperatorResponse
+import com.sanisamoj.data.models.dataclass.ValidationCode
 import com.sanisamoj.data.models.interfaces.MailRepository
 import com.sanisamoj.data.repository.MailDefaultRepository
 import com.sanisamoj.database.mongodb.Fields
@@ -111,6 +112,23 @@ class OperatorAuthenticationService(
 
     suspend fun generateValidationCodeByWhatsapp(identification: String) {
         databaseRepository.generateValidationCode(identification)
+    }
+
+    suspend fun activateOperatorByValidationCode(validationCode: ValidationCode) {
+        isCorrectCode(validationCode.email, validationCode.validationCode)
+        val operator: Operator = databaseRepository.getOperatorByEmail(validationCode.email)
+        activateOperatorById(operator.id.toString())
+    }
+
+    private suspend fun isCorrectCode(email: String, validationCode: Int) {
+        val operator: Operator = databaseRepository.getOperatorByEmail(email)
+        if(operator.validationCode == validationCode) {
+            return
+        } else if(operator.validationCode == -1) {
+            throw Exception(Errors.ExpiredCode.description)
+        } else {
+            throw Exception(Errors.InvalidCode.description)
+        }
     }
 
     suspend fun activateOperatorByToken(token: String) {
