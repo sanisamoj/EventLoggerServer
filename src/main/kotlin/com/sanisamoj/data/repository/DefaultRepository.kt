@@ -1,11 +1,12 @@
 package com.sanisamoj.data.repository
 
+import com.sanisamoj.config.GlobalContext
 import com.sanisamoj.config.GlobalContext.EMPTY_VALIDATION_CODE
-import com.sanisamoj.config.GlobalContext.botRepository
 import com.sanisamoj.config.GlobalContext.errorMessages
 import com.sanisamoj.config.GlobalContext.warningMessagesToChat
 import com.sanisamoj.data.models.dataclass.*
 import com.sanisamoj.data.models.enums.Errors
+import com.sanisamoj.data.models.interfaces.BotRepository
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
 import com.sanisamoj.database.mongodb.CollectionsInDb
 import com.sanisamoj.database.mongodb.Fields
@@ -22,7 +23,9 @@ import org.bson.types.ObjectId
 import java.util.concurrent.Executors
 import java.util.concurrent.TimeUnit
 
-class DefaultRepository : DatabaseRepository {
+class DefaultRepository(
+    private val botRepository: BotRepository = GlobalContext.botRepository
+) : DatabaseRepository {
     override suspend fun createOperator(operator: Operator): Operator {
         val operatorId = MongodbOperations().register(CollectionsInDb.Operators, operator).toString()
         return getOperatorById(operatorId)

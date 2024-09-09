@@ -66,4 +66,9 @@ class OperatorAuthenticationServiceTest {
 
         ContextTest.deleteOperator()
     }
+
+    @Test
+    fun generateValidationCodeByWhatsappAndValidation() = testApplication {
+
+    }
 }

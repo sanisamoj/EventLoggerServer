@@ -1,4 +1,4 @@
-package com.sanisamoj
+package com.sanisamoj.repository
 
 import com.sanisamoj.data.models.dataclass.SendEmailData
 import com.sanisamoj.data.models.interfaces.MailRepository
