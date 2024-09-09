@@ -1,22 +1,23 @@
-package com.sanisamoj.services
+package com.sanisamoj.services.operator
 
-import com.sanisamoj.config.GlobalContext
+import com.sanisamoj.ContextTest
 import com.sanisamoj.data.models.dataclass.CreateOperatorRequest
 import com.sanisamoj.data.models.dataclass.Operator
 import com.sanisamoj.data.models.dataclass.OperatorResponse
 import com.sanisamoj.data.models.enums.OperatorStatus
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
-import com.sanisamoj.services.operator.OperatorService
 import com.sanisamoj.utils.eraseAllDataToTests
 import io.ktor.server.testing.testApplication
+import kotlin.test.AfterTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
 class OperatorServiceTest {
-    private val databaseRepository: DatabaseRepository = GlobalContext.databaseRepository
+    private val databaseRepository: DatabaseRepository = ContextTest.databaseRepository
 
-    init {
+    @AfterTest
+    fun deleteAllDataTests() {
         eraseAllDataToTests()
     }
 

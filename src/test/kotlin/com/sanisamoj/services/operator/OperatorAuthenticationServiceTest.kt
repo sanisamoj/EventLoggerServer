@@ -1,7 +1,6 @@
-package com.sanisamoj.services
+package com.sanisamoj.services.operator
 
 import com.sanisamoj.ContextTest
-import com.sanisamoj.config.GlobalContext
 import com.sanisamoj.config.GlobalContext.EMPTY_VALUE
 import com.sanisamoj.data.models.dataclass.Operator
 import com.sanisamoj.data.models.dataclass.OperatorLoginRequest
@@ -10,21 +9,25 @@ import com.sanisamoj.data.models.dataclass.TokenInfo
 import com.sanisamoj.data.models.enums.OperatorStatus
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
 import com.sanisamoj.database.redis.Redis
-import com.sanisamoj.services.operator.OperatorAuthenticationService
 import com.sanisamoj.utils.eraseAllDataToTests
 import com.sanisamoj.utils.generators.TokenGenerator
 import io.ktor.server.testing.testApplication
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
+import kotlin.test.AfterTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
 class OperatorAuthenticationServiceTest {
-    private val databaseRepository: DatabaseRepository = GlobalContext.databaseRepository
+    private val databaseRepository: DatabaseRepository = ContextTest.databaseRepository
 
     init {
         Redis.initialize()
+    }
+
+    @AfterTest
+    fun deleteAllDataTests() {
         eraseAllDataToTests()
     }
 
@@ -35,7 +38,8 @@ class OperatorAuthenticationServiceTest {
         val operatorLoginRequest = OperatorLoginRequest(operator.email, "wrong")
         assertFails { operatorAuthenticationService.login(operatorLoginRequest) }
 
-        val login: OperatorLoginResponse = operatorAuthenticationService.login(operatorLoginRequest.copy(password = ContextTest.operator.password))
+        val login: OperatorLoginResponse =
+            operatorAuthenticationService.login(operatorLoginRequest.copy(password = ContextTest.operator.password))
         assertEquals(operator.id.toString(), login.account.id)
         assertEquals(operator.name, login.account.name)
         assertEquals(operator.email, login.account.email)
@@ -69,6 +73,15 @@ class OperatorAuthenticationServiceTest {
 
     @Test
     fun generateValidationCodeByWhatsappAndValidation() = testApplication {
+        val operatorAuthenticationService = OperatorAuthenticationService(
+            mailRepository = ContextTest.mailRepository,
+            databaseRepository = ContextTest.databaseRepository
+        )
+
+        val operator: Operator = ContextTest.createOperatorTest(OperatorStatus.Disabled)
+        operatorAuthenticationService.generateValidationCodeByWhatsapp(operator.email)
+        val generatedCode: Int = databaseRepository.getOperatorById(operator.id.toString()).validationCode
+
 
     }
 }

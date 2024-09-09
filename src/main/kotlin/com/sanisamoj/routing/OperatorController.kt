@@ -61,7 +61,7 @@ fun Route.operatorRouting() {
                         appendHTML().html { confirmationPage() }
                     }, ContentType.Text.Html)
 
-                } catch (e: Throwable) {
+                } catch (_: Throwable) {
                     call.respondText(buildString {
                         appendHTML().html { tokenExpiredPage() }
                     }, ContentType.Text.Html)
@@ -74,9 +74,8 @@ fun Route.operatorRouting() {
                 post("/session") {
                     val principal = call.principal<JWTPrincipal>()!!
                     val operatorId = principal.payload.getClaim("id").asString()
-                    val session = principal.payload.getClaim("session").asString()
 
-                    val operatorLoginResponse = OperatorAuthenticationService().session(operatorId, session)
+                    val operatorLoginResponse = OperatorAuthenticationService().session(operatorId)
                     return@post call.respond(operatorLoginResponse)
                 }
 

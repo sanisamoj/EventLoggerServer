@@ -1,6 +1,5 @@
 package com.sanisamoj
 
-import com.sanisamoj.config.GlobalContext
 import com.sanisamoj.data.models.dataclass.Operator
 import com.sanisamoj.data.models.enums.OperatorStatus
 import com.sanisamoj.data.models.interfaces.BotRepository
@@ -10,10 +9,11 @@ import com.sanisamoj.database.mongodb.Fields
 import com.sanisamoj.database.mongodb.OperationField
 import com.sanisamoj.repository.BotRepositoryTest
 import com.sanisamoj.repository.MailRepositoryTest
+import com.sanisamoj.repository.RepositoryTest
 import org.mindrot.jbcrypt.BCrypt
 
 object ContextTest {
-    private val databaseRepository: DatabaseRepository by lazy { GlobalContext.databaseRepository }
+    val databaseRepository: DatabaseRepository by lazy { RepositoryTest(botRepository) }
     val mailRepository: MailRepository by lazy { MailRepositoryTest() }
     val botRepository: BotRepository by lazy { BotRepositoryTest() }
 
