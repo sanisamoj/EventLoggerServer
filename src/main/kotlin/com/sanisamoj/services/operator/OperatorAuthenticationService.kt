@@ -115,11 +115,9 @@ class OperatorAuthenticationService(
 
     suspend fun activateOperatorByToken(token: String) {
         val secret: String = dotEnv("OPERATOR_SECRET")
-
         val verifier = JWT.require(Algorithm.HMAC256(secret)).build()
         val decodedJWT = verifier.verify(token)
         val operatorId: String = decodedJWT.getClaim("id").asString()
-
         activateOperatorById(operatorId)
     }
 
@@ -128,7 +126,7 @@ class OperatorAuthenticationService(
         databaseRepository.updateOperator(operatorId, update)
     }
 
-    suspend fun session(operatorId: String, sessionId: String): OperatorResponse {
+    suspend fun session(operatorId: String): OperatorResponse {
         val operator = databaseRepository.getOperatorById(operatorId)
         return OperatorFactory.operatorResponse(operator)
     }
