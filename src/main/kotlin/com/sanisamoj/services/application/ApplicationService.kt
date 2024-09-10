@@ -56,12 +56,4 @@ class ApplicationService(private val databaseRepository: DatabaseRepository = Gl
         val update = OperationField(Fields.Password, hashedPassword)
         databaseRepository.updateApplicationService(applicationId, update)
     }
-
-    fun updateMinVersion(isMobile: Boolean = false, newVersion: String) {
-        GlobalContext.setMinVersion(isMobile, newVersion)
-    }
-
-    fun updateTargetVersion(isMobile: Boolean = false, newVersion: String) {
-        GlobalContext.setTargetVersion(isMobile, newVersion)
-    }
 }

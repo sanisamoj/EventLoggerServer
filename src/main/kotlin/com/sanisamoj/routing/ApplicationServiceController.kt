@@ -17,13 +17,7 @@ fun Route.applicationServiceRouting() {
 
         // Route responsible for returning the current version
         get("/version") {
-            val mobile = call.parameters["mobile"]
-
-            val version = VersionResponse(
-                serverVersion = GlobalContext.VERSION,
-                frontMinVersion = if(mobile == null) GlobalContext.desktopMinVersion else GlobalContext.mobileMinVersion,
-                frontTargetVersion = if(mobile == null) GlobalContext.desktopTargetVersion else GlobalContext.mobileTargetVersion
-            )
+            val version = VersionResponse(GlobalContext.VERSION)
             return@get call.respond(version)
         }
 
