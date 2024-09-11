@@ -3,6 +3,7 @@ package com.sanisamoj.routing
 import com.sanisamoj.config.GlobalContext
 import com.sanisamoj.data.models.dataclass.ApplicationServiceLoginRequest
 import com.sanisamoj.data.models.dataclass.CreateApplicationServiceRequest
+import com.sanisamoj.data.models.dataclass.UpdatePasswordData
 import com.sanisamoj.data.models.dataclass.VersionResponse
 import com.sanisamoj.services.application.ApplicationService
 import io.ktor.http.*
@@ -48,6 +49,13 @@ fun Route.applicationServiceRouting() {
                 val applicationId = call.parameters["id"].toString()
                 ApplicationService().deleteApplicationServiceById(applicationId)
                 return@delete call.respond(HttpStatusCode.OK)
+            }
+
+            // Responsible for updating password
+            post("/password") {
+                val updatePasswordData = call.receive<UpdatePasswordData>()
+                ApplicationService().updatePassword(updatePasswordData)
+                return@post call.respond(HttpStatusCode.OK)
             }
 
         }

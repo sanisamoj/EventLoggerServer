@@ -51,9 +51,9 @@ class ApplicationService(private val databaseRepository: DatabaseRepository = Gl
         databaseRepository.deleteApplicationServiceById(applicationId)
     }
 
-    suspend fun updatePassword(applicationId: String, newPassword: String) {
-        val hashedPassword: String = BCrypt.hashpw(newPassword , BCrypt.gensalt())
+    suspend fun updatePassword(updatedPasswordData: UpdatePasswordData) {
+        val hashedPassword: String = BCrypt.hashpw(updatedPasswordData.password , BCrypt.gensalt())
         val update = OperationField(Fields.Password, hashedPassword)
-        databaseRepository.updateApplicationService(applicationId, update)
+        databaseRepository.updateApplicationService(updatedPasswordData.applicationId, update)
     }
 }
