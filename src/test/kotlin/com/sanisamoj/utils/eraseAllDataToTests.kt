@@ -10,5 +10,6 @@ fun eraseAllDataToTests() {
     runBlocking {
         launch { eraseAllDataInMongodb<Operator>(CollectionsInDb.Operators) }
         launch { eraseAllDataInMongodb<LogEvent>(CollectionsInDb.LogEvent) }
+        launch { eraseAllDataInMongodb<LogEvent>(CollectionsInDb.ApplicationServices) }
     }
 }

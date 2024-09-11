@@ -22,7 +22,7 @@ object GlobalContext {
     const val MAX_FILE_SIZE: Double = 10.0 * 1024 * 1024 // 10MB
 
     val OPERATOR_TOKEN_EXPIRATION: Long = TimeUnit.DAYS.toMillis(60)
-    val APPLICATION_SERVICE_TOKEN_EXPIRATION: Long = TimeUnit.DAYS.toMillis(90)
+    val APPLICATION_SERVICE_TOKEN_EXPIRATION: Long = TimeUnit.DAYS.toMillis(400)
 
     val botRepository: BotRepository by lazy { DefaultBotRepository(botApiService = BotApi.botApiService) }
     val databaseRepository: DatabaseRepository by lazy { DefaultRepository() }

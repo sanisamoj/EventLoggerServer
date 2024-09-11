@@ -9,12 +9,18 @@ import com.sanisamoj.data.models.interfaces.DatabaseRepository
 import com.sanisamoj.utils.eraseAllDataToTests
 import io.ktor.server.testing.testApplication
 import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
 
 class OperatorServiceTest {
     private val databaseRepository: DatabaseRepository = ContextTest.databaseRepository
+
+    @BeforeTest
+    fun deleteAllDataToTests() {
+        eraseAllDataToTests()
+    }
 
     @AfterTest
     fun deleteAllDataTests() {

@@ -22,7 +22,7 @@ fun Application.configureRateLimit() {
         }
 
         register(RateLimitName("register")) {
-            rateLimiter(limit = 2, refillPeriod = 1.hours)
+            rateLimiter(limit = 3, refillPeriod = 1.hours)
         }
 
         register(RateLimitName("login")) {
@@ -34,7 +34,7 @@ fun Application.configureRateLimit() {
                 val email = accountLoginRequest.email
                 try {
                     AccountAccessGuard().violated(email)
-                } catch (e: Throwable) {}
+                } catch (_: Throwable) {}
             }
         }
     }

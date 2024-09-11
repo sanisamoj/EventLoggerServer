@@ -1,5 +1,6 @@
 package com.sanisamoj
 
+import com.sanisamoj.data.models.dataclass.CreateApplicationServiceRequest
 import com.sanisamoj.data.models.dataclass.Operator
 import com.sanisamoj.data.models.enums.OperatorStatus
 import com.sanisamoj.data.models.interfaces.BotRepository
@@ -22,6 +23,12 @@ object ContextTest {
         email = "operatorEmail@domain.test",
         phone = "111111111111",
         password = "passwordTest"
+    )
+
+    val createApplicationService = CreateApplicationServiceRequest(
+        applicationName = "ApplicationTest",
+        description = "Application Test Description",
+        password = "PasswordTest"
     )
 
     lateinit var operatorTestInDb: Operator

@@ -17,6 +17,7 @@ import io.ktor.server.testing.testApplication
 import java.time.LocalDateTime
 import java.util.concurrent.TimeUnit
 import kotlin.test.AfterTest
+import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFails
@@ -24,8 +25,10 @@ import kotlin.test.assertFails
 class OperatorAuthenticationServiceTest {
     private val databaseRepository: DatabaseRepository = ContextTest.databaseRepository
 
-    init {
+    @BeforeTest
+    fun initializeRedAndDeleteAllDataToTests() {
         Redis.initialize()
+        eraseAllDataToTests()
     }
 
     @AfterTest
