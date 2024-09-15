@@ -1,7 +1,11 @@
 package com.sanisamoj
 
+import com.sanisamoj.data.models.dataclass.ApplicationServiceResponse
 import com.sanisamoj.data.models.dataclass.CreateApplicationServiceRequest
+import com.sanisamoj.data.models.dataclass.CreateEventRequest
 import com.sanisamoj.data.models.dataclass.Operator
+import com.sanisamoj.data.models.enums.EventSeverity
+import com.sanisamoj.data.models.enums.EventType
 import com.sanisamoj.data.models.enums.OperatorStatus
 import com.sanisamoj.data.models.interfaces.BotRepository
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
@@ -11,6 +15,7 @@ import com.sanisamoj.database.mongodb.OperationField
 import com.sanisamoj.repository.BotRepositoryTest
 import com.sanisamoj.repository.MailRepositoryTest
 import com.sanisamoj.repository.RepositoryTest
+import com.sanisamoj.services.application.ApplicationService
 import org.mindrot.jbcrypt.BCrypt
 
 object ContextTest {
@@ -31,6 +36,27 @@ object ContextTest {
         password = "PasswordTest"
     )
 
+    val fakeEventRequest = CreateEventRequest(
+        id = "66e61de3c99a4a9e36d1d891",
+        serviceName = "UserService",
+        eventType = EventType.ERROR.name,
+        errorCode = "401",
+        message = "Failed login attempt for user.",
+        description = "The user with ID 12345 attempted to log in but failed due to incorrect password.",
+        severity = EventSeverity.HIGH.name,
+        stackTrace = "com.example.service.UserService.login(UserService.java:42)",
+        additionalData = mapOf(
+            "userId" to "12345",
+            "loginAttemptTime" to "2024-09-15T14:30:00Z"
+        )
+    )
+
+    val createApplicationServiceTest = CreateApplicationServiceRequest(
+        applicationName = "ApplicationTest",
+        description = "Application Test Description",
+        password = "PasswordTest"
+    )
+
     lateinit var operatorTestInDb: Operator
 
     suspend fun createOperatorTest(operatorStatus: OperatorStatus = OperatorStatus.Disabled): Operator {
@@ -42,6 +68,13 @@ object ContextTest {
         )
         operatorTestInDb = operatorInDb
         return operatorInDb
+    }
+
+    suspend fun createApplication(): ApplicationServiceResponse {
+        val applicationService = ApplicationService(databaseRepository = databaseRepository)
+        val applicationServiceResponse: ApplicationServiceResponse = applicationService.create(createApplicationServiceTest)
+
+        return applicationServiceResponse
     }
 
     suspend fun deleteOperator(operatorId: String = operator.id.toString()) {

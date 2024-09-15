@@ -14,7 +14,6 @@ import com.sanisamoj.database.mongodb.MongodbOperations
 import com.sanisamoj.database.mongodb.OperationField
 import com.sanisamoj.utils.analyzers.dotEnv
 import com.sanisamoj.utils.generators.CharactersGenerator
-import io.ktor.server.plugins.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -42,28 +41,28 @@ class DefaultRepository(
         return MongodbOperations().findOne<Operator>(
             collectionName = CollectionsInDb.Operators,
             filter = OperationField(Fields.Id, ObjectId(operatorId))
-        ) ?: throw NotFoundException(errorMessages.accountNotExists)
+        ) ?: throw Error(errorMessages.accountNotExists)
     }
 
     override suspend fun getOperatorByEmail(email: String): Operator {
         return MongodbOperations().findOne<Operator>(
             collectionName = CollectionsInDb.Operators,
             filter = OperationField(Fields.Email, email)
-        ) ?: throw NotFoundException(errorMessages.accountNotExists)
+        ) ?: throw Error(Errors.AccountNotExists.description)
     }
 
     override suspend fun getOperatorByName(name: String): Operator {
         return MongodbOperations().findOne<Operator>(
             collectionName = CollectionsInDb.Operators,
             filter = OperationField(Fields.Name, name)
-        ) ?: throw NotFoundException(errorMessages.accountNotExists)
+        ) ?: throw Error(Errors.AccountNotExists.description)
     }
 
     override suspend fun getOperatorByPhone(phone: String): Operator {
         return MongodbOperations().findOne<Operator>(
             collectionName = CollectionsInDb.Operators,
             filter = OperationField(Fields.Phone, phone)
-        ) ?: throw NotFoundException(errorMessages.accountNotExists)
+        ) ?: throw Error(Errors.AccountNotExists.description)
     }
 
     override suspend fun updateOperator(operatorId: String, update: OperationField): Operator {
@@ -71,7 +70,7 @@ class DefaultRepository(
             collectionName = CollectionsInDb.Operators,
             filter = OperationField(Fields.Id, ObjectId(operatorId)),
             update = update
-        ) ?: throw NotFoundException(Errors.AccountNotExists.description)
+        ) ?: throw Error(Errors.AccountNotExists.description)
     }
 
     override suspend fun generateValidationCode(identification: String, code: Int?) {
@@ -149,7 +148,7 @@ class DefaultRepository(
         return MongodbOperations().findOne<LogEvent>(
             collectionName = CollectionsInDb.LogEvent,
             filter = OperationField(Fields.Id, ObjectId(eventId))
-        ) ?: throw NotFoundException(Errors.LogEventNotExists.description)
+        ) ?: throw Error(Errors.LogEventNotExists.description)
     }
 
     override suspend fun getAllEventsByFilter(eventLoggerFilter: EventLoggerFilter): List<LogEvent> {
@@ -216,7 +215,7 @@ class DefaultRepository(
             collectionName = CollectionsInDb.LogEvent,
             filter = OperationField(Fields.Id, ObjectId(eventId)),
             update = update
-        ) ?: throw NotFoundException(Errors.LogEventNotExists.description)
+        ) ?: throw Error(Errors.LogEventNotExists.description)
     }
 
     override suspend fun createApplicationService(
@@ -248,14 +247,14 @@ class DefaultRepository(
         return MongodbOperations().findOne<ApplicationServiceData>(
             collectionName = CollectionsInDb.ApplicationServices,
             filter = OperationField(Fields.Id, ObjectId(applicationId))
-        ) ?: throw NotFoundException(Errors.ApplicationNotExists.description)
+        ) ?: throw Error(Errors.ApplicationNotExists.description)
     }
 
     override suspend fun getApplicationServiceByName(applicationName: String): ApplicationServiceData {
         return MongodbOperations().findOne<ApplicationServiceData>(
             collectionName = CollectionsInDb.ApplicationServices,
             filter = OperationField(Fields.ApplicationName, applicationName)
-        ) ?: throw NotFoundException(Errors.ApplicationNotExists.description)
+        ) ?: throw Error(Errors.ApplicationNotExists.description)
     }
 
     override suspend fun updateApplicationService(
@@ -266,7 +265,7 @@ class DefaultRepository(
             collectionName = CollectionsInDb.ApplicationServices,
             filter = OperationField(Fields.Id, ObjectId(applicationId)),
             update = update
-        ) ?: throw NotFoundException(Errors.ApplicationNotExists.description)
+        ) ?: throw Error(Errors.ApplicationNotExists.description)
     }
 
     override suspend fun getAllApplicationServices(): List<ApplicationServiceData> {
