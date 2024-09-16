@@ -2,6 +2,8 @@ package com.sanisamoj.routing
 
 import com.sanisamoj.data.models.dataclass.CreateEventRequest
 import com.sanisamoj.data.models.dataclass.EventLoggerFilter
+import com.sanisamoj.data.models.dataclass.LogEventResponse
+import com.sanisamoj.data.models.dataclass.LogEventWithPaginationResponse
 import com.sanisamoj.services.logEvent.EventService
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -21,12 +23,12 @@ fun Route.logEventRouting() {
 
                 // Route responsible for recording a log
                 post {
-                    val createEventRequest = call.receive<CreateEventRequest>()
-                    val principal = call.principal<JWTPrincipal>()
-                    val id = principal?.payload?.getClaim("id")?.asString()!!
+                    val createEventRequest: CreateEventRequest = call.receive<CreateEventRequest>()
+                    val principal: JWTPrincipal? = call.principal<JWTPrincipal>()
+                    val id: String = principal?.payload?.getClaim("id")?.asString()!!
                     val eventRequestUpdated = createEventRequest.copy(id = id)
 
-                    val eventResponse = EventService().registerEvent(eventRequestUpdated)
+                    val eventResponse: LogEventResponse = EventService().registerEvent(eventRequestUpdated)
                     return@post call.respond(HttpStatusCode.Created, eventResponse)
                 }
             }
@@ -35,16 +37,16 @@ fun Route.logEventRouting() {
 
                 // Responsible for returning to delete a logEvent
                 delete {
-                    val eventId = call.request.queryParameters["id"].toString()
+                    val eventId: String = call.request.queryParameters["id"].toString()
                     EventService().deleteEvent(eventId)
                     return@delete call.respond(HttpStatusCode.OK)
                 }
 
                 // Responsible for marking a log as read or unread
                 put("/{id}") {
-                    val eventId = call.parameters["id"].toString()
-                    val parameter = call.request.queryParameters["read"].toString().toLowerCase()
-                    val read = parameter == "true"
+                    val eventId: String = call.parameters["id"].toString()
+                    val parameter: String = call.request.queryParameters["read"].toString().lowercase()
+                    val read: Boolean = parameter == "true"
 
                     EventService().readEvent(eventId, read)
                     return@put call.respond(HttpStatusCode.OK)
@@ -53,12 +55,12 @@ fun Route.logEventRouting() {
 
             // Responsible for returning multiple logs with filter
             get{
-                val eventType = call.request.queryParameters["type"]
-                val eventSeverity = call.request.queryParameters["severity"]
-                val mode = call.request.queryParameters["mode"]
-                val read = call.request.queryParameters["read"]
-                val pageParameter = call.request.queryParameters["page"]
-                val sizeParameter = call.request.queryParameters["size"]
+                val eventType: String? = call.request.queryParameters["type"]
+                val eventSeverity: String? = call.request.queryParameters["severity"]
+                val mode: String? = call.request.queryParameters["mode"]
+                val read: String? = call.request.queryParameters["read"]
+                val pageParameter: String? = call.request.queryParameters["page"]
+                val sizeParameter: String? = call.request.queryParameters["size"]
 
                 val actualRead = if(read == null) {
                     null
@@ -69,15 +71,15 @@ fun Route.logEventRouting() {
                 val size = sizeParameter?.toInt() ?: 20
 
                 if(eventType == null || eventSeverity == null || mode == null) {
-                    val logEventList = EventService().getAllEvents(actualRead, page, size)
+                    val logEventList: LogEventWithPaginationResponse = EventService().getAllEvents(actualRead, page, size)
                     return@get call.respond(logEventList)
                 }
 
                 val eventLoggerFilter = EventLoggerFilter(
-                    eventType = eventType.toString().toUpperCase(),
-                    eventSeverity = eventSeverity.toString().toUpperCase(),
-                    ordering = if(mode.toLowerCase() == "asc") 1 else -1,
-                    read = if(read.toString().toLowerCase() == "true") true else false,
+                    eventType = eventType.toString().uppercase(),
+                    eventSeverity = eventSeverity.toString().uppercase(),
+                    ordering = if(mode.lowercase() == "asc") 1 else -1,
+                    read = if(read.toString().lowercase() == "true") true else false,
                     page = page,
                     size = size
                 )

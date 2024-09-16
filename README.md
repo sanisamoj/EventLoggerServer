@@ -58,6 +58,12 @@ SERVER_URL=mongodb://localhost:27017
 # Nome do banco de dados MongoDB
 NAME_DATABASE=EventLoggerServer
 
+#URL do banco de dados do REDIS
+REDIS_SERVER_URL=host.docker.internal  #No Docker - host.docker.internal
+
+#Porta do banco de dados do REDIS
+REDIS_SERVER_PORT=6379
+
 # E-mail do sistema
 EMAIL_SYSTEM=
 EMAIL_PASSWORD=

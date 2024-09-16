@@ -2,7 +2,6 @@ package com.sanisamoj.config
 
 import com.sanisamoj.data.models.interfaces.BotRepository
 import com.sanisamoj.database.mongodb.MongoDatabase
-import com.sanisamoj.database.redis.Redis
 import com.sanisamoj.utils.schedule.ScheduleRoutine
 import com.sanisamoj.utils.schedule.models.JobIdentification
 import com.sanisamoj.utils.schedule.models.RoutineGroups
@@ -22,7 +21,6 @@ object Config {
 
     private suspend fun databaseInitialize() {
         MongoDatabase.initialize()
-        Redis.initialize()
     }
 
     private suspend fun botApiInitialize() {
