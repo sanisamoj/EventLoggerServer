@@ -10,7 +10,6 @@ import com.sanisamoj.data.models.dataclass.TokenInfo
 import com.sanisamoj.data.models.dataclass.ValidationCode
 import com.sanisamoj.data.models.enums.OperatorStatus
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
-import com.sanisamoj.database.redis.Redis
 import com.sanisamoj.utils.eraseAllDataToTests
 import com.sanisamoj.utils.generators.TokenGenerator
 import io.ktor.server.testing.testApplication
@@ -27,7 +26,6 @@ class OperatorAuthenticationServiceTest {
 
     @BeforeTest
     fun initializeRedAndDeleteAllDataToTests() {
-        Redis.initialize()
         eraseAllDataToTests()
     }
 

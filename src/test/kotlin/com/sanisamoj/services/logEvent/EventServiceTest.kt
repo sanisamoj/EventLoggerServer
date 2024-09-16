@@ -10,7 +10,6 @@ import com.sanisamoj.data.models.dataclass.LogEventWithPaginationResponse
 import com.sanisamoj.data.models.enums.EventSeverity
 import com.sanisamoj.data.models.enums.EventType
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
-import com.sanisamoj.database.redis.Redis
 import com.sanisamoj.utils.eraseAllDataToTests
 import io.ktor.server.testing.testApplication
 import kotlin.test.AfterTest
@@ -24,7 +23,6 @@ class EventServiceTest {
 
     @BeforeTest
     fun initializeRedAndDeleteAllDataToTests() {
-        Redis.initialize()
         eraseAllDataToTests()
     }
 

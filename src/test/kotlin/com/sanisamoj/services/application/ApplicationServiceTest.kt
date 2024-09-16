@@ -5,7 +5,6 @@ import com.sanisamoj.data.models.dataclass.ApplicationServiceLoginRequest
 import com.sanisamoj.data.models.dataclass.ApplicationServiceResponse
 import com.sanisamoj.data.models.dataclass.CreateApplicationServiceRequest
 import com.sanisamoj.data.models.interfaces.DatabaseRepository
-import com.sanisamoj.database.redis.Redis
 import com.sanisamoj.utils.eraseAllDataToTests
 import io.ktor.server.testing.testApplication
 import kotlin.test.AfterTest
@@ -19,7 +18,6 @@ class ApplicationServiceTest {
 
     @BeforeTest
     fun initializeRedAndDeleteAllDataToTests() {
-        Redis.initialize()
         eraseAllDataToTests()
     }
 
