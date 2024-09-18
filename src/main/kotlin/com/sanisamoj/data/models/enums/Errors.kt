@@ -10,6 +10,7 @@ enum class Errors(val description: String) {
     ExpiredCode(description = errorMessages.expiredCode),
     AccountNotActivated(description = errorMessages.accountNotActivated),
     BlockedAccount(description = errorMessages.blockedAccount),
+    BotTokenNotUpdated(description = "Bot token not updated"),
     RedisNotResponding(description = errorMessages.redisNotResponding),
     RevokedToken(description = errorMessages.revokedToken),
     TooManyRequests(description = errorMessages.tooManyRequests),

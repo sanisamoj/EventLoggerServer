@@ -63,7 +63,7 @@ class OperatorAuthenticationService(
         if (operator.status == OperatorStatus.Blocked.name) throw Exception(Errors.BlockedAccount.description)
         return
     }
-
+    
     private suspend fun registerSession(operatorId: String, sessionId: String) {
         val liveSessions: LiveSessions? = sessionRepository.getSession(operatorId)
         val liveSession = LiveSession(sessionId, LocalDateTime.now().toString())
